@@ -10,6 +10,8 @@ import com.example.mtsstepiccourse.repository.CourseRepository;
 
 import java.util.List;
 
+import static java.util.Objects.requireNonNullElse;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/course")
@@ -44,5 +46,10 @@ public class CourseController {
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable Long id) {
         courseRepository.deleteById(id);
+    }
+
+    @GetMapping("/filter")
+    public List<Course> getCoursesByTitlePrefix(@RequestParam(name = "titlePrefix", required = false) String titlePrefix) {
+        return courseRepository.findByTitleWithPrefix(requireNonNullElse(titlePrefix, ""));
     }
 }
