@@ -1,0 +1,47 @@
+package com.example.mtsstepiccourse.controller;
+
+import com.example.mtsstepiccourse.dto.CourseRequestToCreate;
+import com.example.mtsstepiccourse.dto.CourseRequestToUpdate;
+import com.example.mtsstepiccourse.model.Course;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import com.example.mtsstepiccourse.repository.CourseRepository;
+
+import java.util.List;
+
+@AllArgsConstructor
+@RestController
+@RequestMapping("/course")
+public class CourseController {
+    private final CourseRepository courseRepository;
+
+    @GetMapping
+    public List<Course> courseTable() {
+        return courseRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Course getCourse(@PathVariable("id") Long id) {
+        return courseRepository.findById(id).orElseThrow();
+    }
+
+    @PutMapping("/{id}")
+    public void updateCourse(@PathVariable Long id,
+                             @RequestBody CourseRequestToUpdate request) {
+        Course course = courseRepository.findById(id).orElseThrow();
+        course.setTitle(request.getTitle());
+        course.setAuthor(request.getAuthor());
+        courseRepository.save(course);
+    }
+
+    @PostMapping
+    public Course createCourse(@RequestBody CourseRequestToCreate request) {
+        Course course = new Course(request.getAuthor(), request.getTitle());
+        return courseRepository.save(course);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCourse(@PathVariable Long id) {
+        courseRepository.deleteById(id);
+    }
+}
