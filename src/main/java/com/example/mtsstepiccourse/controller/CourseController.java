@@ -3,6 +3,7 @@ package com.example.mtsstepiccourse.controller;
 import com.example.mtsstepiccourse.dto.CourseRequestToCreate;
 import com.example.mtsstepiccourse.dto.CourseRequestToUpdate;
 import com.example.mtsstepiccourse.model.Course;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.example.mtsstepiccourse.repository.CourseRepository;
@@ -27,7 +28,7 @@ public class CourseController {
 
     @PutMapping("/{id}")
     public void updateCourse(@PathVariable Long id,
-                             @RequestBody CourseRequestToUpdate request) {
+                             @Valid @RequestBody CourseRequestToUpdate request) {
         Course course = courseRepository.findById(id).orElseThrow();
         course.setTitle(request.getTitle());
         course.setAuthor(request.getAuthor());
