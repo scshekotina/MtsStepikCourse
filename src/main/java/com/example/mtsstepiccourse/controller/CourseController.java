@@ -15,7 +15,7 @@ import java.util.List;
 public class CourseController {
     private final CourseRepository courseRepository;
 
-    @GetMapping
+    @GetMapping("")
     public List<Course> courseTable() {
         return courseRepository.findAll();
     }
