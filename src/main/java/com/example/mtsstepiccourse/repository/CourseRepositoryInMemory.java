@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -29,8 +28,8 @@ public class CourseRepositoryInMemory implements CourseRepository {
     }
 
     @Override
-    public Optional<Course> findById(Long id) {
-        return Optional.ofNullable(courseMap.get(id));
+    public Course findById(Long id) {
+        return courseMap.get(id);
     }
 
     @Override
@@ -42,10 +41,12 @@ public class CourseRepositoryInMemory implements CourseRepository {
     }
 
     @Override
-    public synchronized void deleteById(Long id) {
-        if (courseMap.remove(id) != null) {
+    public synchronized Course deleteById(Long id) {
+        Course removed = courseMap.remove(id);
+        if (removed != null) {
             counter.decrementAndGet();
         }
+        return removed;
     }
 
     @Override

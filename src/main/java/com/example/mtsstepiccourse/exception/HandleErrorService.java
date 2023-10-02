@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -16,7 +17,7 @@ public class HandleErrorService {
     @ExceptionHandler
     public ResponseEntity<ApiError> noSuchElementExceptionHandler(NoSuchElementException ex) {
         return new ResponseEntity<>(
-                new ApiError(ex.getMessage()),
+                new ApiError(OffsetDateTime.now(), ex.getMessage()),
                 HttpStatus.NOT_FOUND
         );
     }
@@ -31,7 +32,7 @@ public class HandleErrorService {
             errors.put(fieldName, errorMessage);
         });
         return new ResponseEntity<>(
-                new ApiError(errors.values().toString()),
+                new ApiError(OffsetDateTime.now(), errors.values().toString()),
                 HttpStatus.BAD_REQUEST
         );
     }
