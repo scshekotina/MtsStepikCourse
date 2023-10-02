@@ -1,17 +1,18 @@
-package com.example.mtsstepiccourse.repository;
+package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.model.Course;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CourseRepository {
+public interface CourseService {
     List<Course> findAll();
 
-    Course findById(Long id);
+    Optional<Course> findById(Long id);
 
     Course save(Course course);
 
-    Course deleteById(Long id);
+    Optional<Course> deleteById(Long id);
 
     List<Course> findByTitleWithPrefix(String prefix);
 }
