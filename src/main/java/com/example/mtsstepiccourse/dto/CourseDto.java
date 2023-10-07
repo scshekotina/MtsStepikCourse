@@ -1,4 +1,4 @@
-package com.example.mtsstepiccourse.model;
+package com.example.mtsstepiccourse.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,16 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Course {
-
-    public Course(String author, String title) {
-        this.author = author;
-        this.title = title;
-    }
-
+public class CourseDto {
     private Long id;
     private String author;
     private String title;
-
-
 }
