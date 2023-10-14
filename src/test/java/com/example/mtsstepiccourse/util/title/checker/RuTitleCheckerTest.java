@@ -1,12 +1,14 @@
 package com.example.mtsstepiccourse.util.title.checker;
 
+import com.example.mtsstepiccourse.exception.DtoValidationException;
 import com.example.mtsstepiccourse.util.title.checker.language.RuTitleChecker;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @NoArgsConstructor
@@ -17,11 +19,11 @@ public class RuTitleCheckerTest {
 
     @Test
     public void checkTitle() {
-        assertThat(checker.checkTitle("Это корректный заголовок")).isTrue();
-        assertThat(checker.checkTitle("а это некорректный")).isFalse();
-        assertThat(checker.checkTitle("Это тоже Некорректный")).isFalse();
-        assertThat(checker.checkTitle("А это коРРЕКТНЫЙ")).isTrue();
-        assertThat(checker.checkTitle("а это неКОРРЕКТНЫЙ")).isFalse();
-        assertThat(checker.checkTitle("Смешение en языков")).isFalse();
+        assertThatCode(() -> checker.checkTitle("Это корректный заголовок")).doesNotThrowAnyException();
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("а это некорректный"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("Это тоже Некорректный"));
+        assertThatCode(() -> checker.checkTitle("А это коРРЕКТНЫЙ")).doesNotThrowAnyException();
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("а это неКОРРЕКТНЫЙ"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("Смешение en языков"));
     }
 }

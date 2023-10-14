@@ -10,10 +10,9 @@ public class BaseTitleChecker implements TitleChecker {
     }
 
     @Override
-    public boolean checkTitle(CharSequence value) {
+    public void checkTitle(CharSequence value) {
         if (next != null) {
-            return next.checkTitle(value);
+            next.checkTitle(value);
         }
-        return true;
     }
 }

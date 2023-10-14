@@ -1,11 +1,13 @@
 package com.example.mtsstepiccourse.util.title.checker;
 
+import com.example.mtsstepiccourse.exception.DtoValidationException;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @NoArgsConstructor
@@ -16,11 +18,11 @@ public class ProhibitedSymbolsTitleCheckerTest {
 
     @Test
     public void checkTitle() {
-        assertThat(checker.checkTitle("ewfw erfe")).isTrue();
-        assertThat(checker.checkTitle("frserf\n erw fg")).isFalse();
-        assertThat(checker.checkTitle("frserf\terw fg")).isFalse();
-        assertThat(checker.checkTitle("frserf\r erw fg")).isFalse();
-        assertThat(checker.checkTitle("\nfrserf erw fg")).isFalse();
-        assertThat(checker.checkTitle("frserf erw fg\t")).isFalse();
+        assertThatCode(() -> checker.checkTitle("ewfw erfe")).doesNotThrowAnyException();
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("frserf\n erw fg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("frserf\terw fg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("frserf\r erw fg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("\nfrserf erw fg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("frserf erw fg\t"));
     }
 }

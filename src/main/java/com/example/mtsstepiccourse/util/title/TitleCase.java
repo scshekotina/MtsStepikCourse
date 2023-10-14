@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 public @interface TitleCase {
     TitleCaseMode mode() default TitleCaseMode.ANY;
 
-    String message() default "{com.example.mtsstepiccourse.util.titlecase.TitleCase.message}";
+    String message() default "Title ${validatedValue} is impossible";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default { };
 }

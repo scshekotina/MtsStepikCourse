@@ -7,6 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.example.mtsstepiccourse.util.title.TitleCaseValidator.ENGLISH_SYMBOLS_IN_RUSSIAN_TITLE;
+import static com.example.mtsstepiccourse.util.title.checker.AllowedSymbolsTitleChecker.CHECKED_NOT_ALLOWED_SYMBOLS;
+import static com.example.mtsstepiccourse.util.title.checker.OneSpaceTogetherTitleChecker.MORE_THAN_ONE_SPACE_TOGETHER_ARE_DETECTED;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -34,7 +37,7 @@ class CourseControllerTest {
                         .content("{\"author\":\"Путин В.В.\",\"title\":\"English Correct Title\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
-                .andExpect(content().string(containsString("Title should write in russian title case mode")));
+                .andExpect(content().string(containsString(ENGLISH_SYMBOLS_IN_RUSSIAN_TITLE)));
     }
 
     @Test
@@ -59,7 +62,7 @@ class CourseControllerTest {
                         .content("{\"author\":\"Путин В.В.\",\"title\":\"Лишние  пробелы\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
-                .andExpect(content().string(containsString("Title should write in title case mode")));
+                .andExpect(content().string(containsString(MORE_THAN_ONE_SPACE_TOGETHER_ARE_DETECTED)));
     }
 
     @Test
@@ -68,6 +71,6 @@ class CourseControllerTest {
                         .content("{\"author\":\"Путин В.В.\",\"title\":\"Запрещенные 1 символы\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
-                .andExpect(content().string(containsString("Title should write in title case mode")));
+                .andExpect(content().string(containsString(CHECKED_NOT_ALLOWED_SYMBOLS)));
     }
 }

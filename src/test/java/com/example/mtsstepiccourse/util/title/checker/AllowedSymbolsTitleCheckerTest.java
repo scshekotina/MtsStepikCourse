@@ -1,12 +1,13 @@
 package com.example.mtsstepiccourse.util.title.checker;
 
+import com.example.mtsstepiccourse.exception.DtoValidationException;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @NoArgsConstructor
 public class AllowedSymbolsTitleCheckerTest {
@@ -16,13 +17,13 @@ public class AllowedSymbolsTitleCheckerTest {
 
     @Test
     public void checkTitle() {
-        assertThat(checker.checkTitle("юЮю rrr,")).isTrue();
-        assertThat(checker.checkTitle("fF: пп")).isTrue();
-        assertThat(checker.checkTitle("юfю\"fюf")).isTrue();
-        assertThat(checker.checkTitle("'ююю'")).isTrue();
-        assertThat(checker.checkTitle("ffff@sfg")).isFalse();
-        assertThat(checker.checkTitle("ffff1sfg")).isFalse();
-        assertThat(checker.checkTitle("ffff.sfg")).isFalse();
-        assertThat(checker.checkTitle("ffff\\sfg")).isFalse();
+        assertThatCode(() -> checker.checkTitle("юЮю rrr,")).doesNotThrowAnyException();
+        assertThatCode(() -> checker.checkTitle("fF: пп")).doesNotThrowAnyException();
+        assertThatCode(() -> checker.checkTitle("юfю\"fюf")).doesNotThrowAnyException();
+        assertThatCode(() -> checker.checkTitle("'ююю'")).doesNotThrowAnyException();
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("ffff@sfg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("ffff1sfg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("ffff.sfg"));
+        assertThrows(DtoValidationException.class, () -> checker.checkTitle("ffff\\sfg"));
     }
 }
