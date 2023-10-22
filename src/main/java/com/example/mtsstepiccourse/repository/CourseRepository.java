@@ -1,17 +1,11 @@
 package com.example.mtsstepiccourse.repository;
 
 import com.example.mtsstepiccourse.model.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CourseRepository {
-    List<Course> findAll();
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    Course findById(Long id);
-
-    Course save(Course course);
-
-    Course deleteById(Long id);
-
-    List<Course> findByTitleWithPrefix(String prefix);
+    List<Course> findByTitleLike(String title);
 }

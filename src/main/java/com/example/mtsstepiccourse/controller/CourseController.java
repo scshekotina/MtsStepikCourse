@@ -60,7 +60,7 @@ public class CourseController {
 
     @GetMapping("/filter")
     public List<CourseDto> getCoursesByTitlePrefix(@RequestParam(name = "titlePrefix", required = false) String titlePrefix) {
-        return courseService.findByTitleWithPrefix(requireNonNullElse(titlePrefix, "")).stream()
+        return courseService.findByTitleLike(requireNonNullElse(titlePrefix, "")).stream()
                 .map(courseToCourseDtoMapper::courseToCourseDto)
                 .collect(Collectors.toList());
     }
