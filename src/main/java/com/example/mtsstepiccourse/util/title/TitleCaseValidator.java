@@ -40,15 +40,19 @@ public class TitleCaseValidator implements ConstraintValidator<TitleCase, CharSe
         Language titleLanguage = LanguageIdentifier.identifyLanguage(value);
         switch (titleLanguage) {
             case MIXED:
-                context.disableDefaultConstraintViolation();
-                context.buildConstraintViolationWithTemplate(MORE_THAN_ONE_LANGUAGE_IS_PROHIBITED_IN_TITLE).addConstraintViolation();
+                if (context != null) {
+                    context.disableDefaultConstraintViolation();
+                    context.buildConstraintViolationWithTemplate(MORE_THAN_ONE_LANGUAGE_IS_PROHIBITED_IN_TITLE).addConstraintViolation();
+                }
                 return false;
             case NOT_DEFINED:
                 break;
             case RU:
                 if (mode == TitleCaseMode.EN) {
-                    context.disableDefaultConstraintViolation();
-                    context.buildConstraintViolationWithTemplate(RUSSIAN_SYMBOLS_IN_ENGLISH_TITLE).addConstraintViolation();
+                    if (context != null) {
+                        context.disableDefaultConstraintViolation();
+                        context.buildConstraintViolationWithTemplate(RUSSIAN_SYMBOLS_IN_ENGLISH_TITLE).addConstraintViolation();
+                    }
                     return false;
                 }
                 TitleChecker ruTitleChecker = new RuTitleChecker();
@@ -56,8 +60,10 @@ public class TitleCaseValidator implements ConstraintValidator<TitleCase, CharSe
                 break;
             case EN:
                 if (mode == TitleCaseMode.RU) {
-                    context.disableDefaultConstraintViolation();
-                    context.buildConstraintViolationWithTemplate(ENGLISH_SYMBOLS_IN_RUSSIAN_TITLE).addConstraintViolation();
+                    if (context != null) {
+                        context.disableDefaultConstraintViolation();
+                        context.buildConstraintViolationWithTemplate(ENGLISH_SYMBOLS_IN_RUSSIAN_TITLE).addConstraintViolation();
+                    }
                     return false;
                 }
                 EnTitleChecker enTitleChecker = new EnTitleChecker();
@@ -68,8 +74,10 @@ public class TitleCaseValidator implements ConstraintValidator<TitleCase, CharSe
                 checker.checkTitle(value);
                 return true;
             } catch (DtoValidationException e) {
-                context.disableDefaultConstraintViolation();
-                context.buildConstraintViolationWithTemplate(e.getMessage()).addConstraintViolation();
+                if (context != null) {
+                    context.disableDefaultConstraintViolation();
+                    context.buildConstraintViolationWithTemplate(e.getMessage()).addConstraintViolation();
+                }
                 return false;
             }
 

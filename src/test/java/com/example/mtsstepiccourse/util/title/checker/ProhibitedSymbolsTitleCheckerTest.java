@@ -5,12 +5,14 @@ import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @NoArgsConstructor
+@ActiveProfiles("test")
 public class ProhibitedSymbolsTitleCheckerTest {
 
     @Autowired

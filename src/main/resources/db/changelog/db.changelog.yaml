@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: '2023102701'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'courses'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: courses_id_pk
+              - column:
+                  name: author
+                  type: varchar(255)
+              - column:
+                  name: title
+                  type: varchar(255)
+  - changeSet:
+      id: '2023102702'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'lesson'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: lesson_id_pk
+              - column:
+                  name: name
+                  type: varchar(255)
