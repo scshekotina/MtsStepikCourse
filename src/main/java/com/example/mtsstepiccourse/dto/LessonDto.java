@@ -1,15 +1,19 @@
 package com.example.mtsstepiccourse.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class CourseDto {
+@Getter
+@Setter
+public class LessonDto {
 
     private Long id;
-    private String author;
     private String title;
+    private String text;
+    private Long courseId;
+
 }

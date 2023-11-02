@@ -23,7 +23,7 @@ databaseChangeLog:
       author: 'Anastasiya Scshekotina'
       changes:
         - createTable:
-            tableName: 'lesson'
+            tableName: 'lessons'
             columns:
               - column:
                   name: id

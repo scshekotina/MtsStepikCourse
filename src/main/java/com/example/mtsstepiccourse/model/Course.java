@@ -1,8 +1,12 @@
 package com.example.mtsstepiccourse.model;
 
+import com.example.mtsstepiccourse.dto.CourseDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +22,12 @@ public class Course {
         this.title = title;
     }
 
+    public Course(CourseDto dto) {
+        this.id = dto.getId();
+        this.author = dto.getAuthor();
+        this.title = dto.getTitle();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,5 +40,10 @@ public class Course {
     @Column
     private String title;
 
+    @OneToMany(mappedBy = "course", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Lesson> lessons;
+
+    @ManyToMany
+    private Set<User> users;
 
 }

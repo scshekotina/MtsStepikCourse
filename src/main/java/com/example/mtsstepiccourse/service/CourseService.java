@@ -1,5 +1,6 @@
 package com.example.mtsstepiccourse.service;
 
+import com.example.mtsstepiccourse.dto.CourseDto;
 import com.example.mtsstepiccourse.model.Course;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public interface CourseService {
 
     Optional<Course> findById(Long id);
 
-    Course save(Course course);
+    Course create(CourseDto courseDto);
+
+    Optional<Course> update(Long id, CourseDto courseDto);
 
     Optional<Course> deleteById(Long id);
 

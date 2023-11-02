@@ -13,4 +13,5 @@ public class CourseRequestToUpdate {
     @TitleCase(mode = TitleCaseMode.RU, message = "Title should write in russian title case mode")
     @NotBlank(message = "Course title had to be filled")
     private String title;
+
 }

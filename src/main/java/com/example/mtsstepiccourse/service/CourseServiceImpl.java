@@ -1,5 +1,6 @@
 package com.example.mtsstepiccourse.service;
 
+import com.example.mtsstepiccourse.dto.CourseDto;
 import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.repository.CourseRepository;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,22 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course save(Course course) {
+    public Course create(CourseDto courseDto) {
+        Course course = new Course(courseDto);
         return repository.save(course);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Course> update(Long id, CourseDto courseDto){
+        Optional<Course> courseFromRepository = repository.findById(id);
+        if(courseFromRepository.isEmpty()) {
+            return courseFromRepository;
+        }
+        Course course = new Course(courseDto);
+        course.setId(id);
+        course.setLessons(courseFromRepository.get().getLessons());
+        return Optional.of(repository.save(course));
     }
 
     @Override
@@ -40,7 +55,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> findByTitleLike(String title) {
-        return repository.findByTitleLike(title);
+        return repository.findByTitleLike("%" + title + "%");
     }
+
+
+
+
+
 
 }
