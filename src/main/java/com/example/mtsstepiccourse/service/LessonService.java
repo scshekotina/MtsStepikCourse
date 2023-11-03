@@ -12,10 +12,5 @@ public interface LessonService {
 
     Optional<Lesson> findById(Long id);
 
-    Lesson create(LessonDto lessonDto);
-
     Optional<Lesson> update(long id, LessonDto lessonDto);
-
-    Optional<Lesson> deleteById(Long id);
-
 }

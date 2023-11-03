@@ -2,11 +2,13 @@ package com.example.mtsstepiccourse.model;
 
 import com.example.mtsstepiccourse.dto.LessonDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity

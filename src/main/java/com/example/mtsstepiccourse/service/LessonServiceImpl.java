@@ -1,9 +1,7 @@
 package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.dto.LessonDto;
-import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.model.Lesson;
-import com.example.mtsstepiccourse.repository.CourseRepository;
 import com.example.mtsstepiccourse.repository.LessonRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,7 +15,6 @@ import java.util.Optional;
 public class LessonServiceImpl implements LessonService {
 
     private LessonRepository lessonRepository;
-    private CourseRepository courseRepository;
 
     @Override
     @Transactional
@@ -28,13 +25,6 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public Optional<Lesson> findById(Long id) {
         return lessonRepository.findById(id);
-    }
-
-    @Override
-    public Lesson create(LessonDto lessonDto) {
-        Course course = courseRepository.findById(lessonDto.getCourseId()).orElseThrow();
-        Lesson lesson = new Lesson(lessonDto, course);
-        return lessonRepository.save(lesson);
     }
 
     @Transactional
@@ -52,11 +42,4 @@ public class LessonServiceImpl implements LessonService {
         return Optional.of(lessonRepository.save(lesson));
     }
 
-    @Override
-    @Transactional
-    public Optional<Lesson> deleteById(Long id) {
-        Optional<Lesson> byId = lessonRepository.findById(id);
-        byId.ifPresent(lesson -> lessonRepository.delete(lesson));
-        return byId;
-    }
 }

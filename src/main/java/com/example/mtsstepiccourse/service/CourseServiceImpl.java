@@ -1,7 +1,9 @@
 package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.dto.CourseDto;
+import com.example.mtsstepiccourse.dto.LessonDto;
 import com.example.mtsstepiccourse.model.Course;
+import com.example.mtsstepiccourse.model.Lesson;
 import com.example.mtsstepiccourse.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -58,9 +60,23 @@ public class CourseServiceImpl implements CourseService {
         return repository.findByTitleLike("%" + title + "%");
     }
 
+    @Override
+    @Transactional
+    public Lesson addLesson(Long courseId, LessonDto lessonDto) {
+        Course course = repository.findById(courseId).orElseThrow();
+        Lesson lesson = new Lesson(lessonDto, course);
+        course.addLesson(lesson);
+        repository.save(course);
+        return lesson;
+    }
 
-
-
-
-
+    @Override
+    @Transactional
+    public void removeLesson(Long courseId, Long lessonId) {
+        Course course = repository.findById(courseId).orElseThrow();
+        Lesson lesson = course.getLessons().stream().filter(l -> l.getId().equals(lessonId)).findFirst().orElseThrow();
+        course.getLessons().remove(lesson);
+        lesson.setCourse(null);
+        repository.save(course);
+    }
 }

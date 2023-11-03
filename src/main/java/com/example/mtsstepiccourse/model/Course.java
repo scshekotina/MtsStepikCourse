@@ -46,4 +46,8 @@ public class Course {
     @ManyToMany
     private Set<User> users;
 
+    public void addLesson(Lesson lesson) {
+        lesson.setCourse(this);
+        this.lessons.add(lesson);
+    }
 }
