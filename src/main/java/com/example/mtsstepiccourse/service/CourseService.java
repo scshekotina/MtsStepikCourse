@@ -21,7 +21,8 @@ public interface CourseService {
 
     List<Course> findByTitleLike(String prefix);
 
+    List<Lesson> getLessons(Long courseId);
+
     Lesson addLesson(Long courseId, LessonDto lessonDto);
 
-    void removeLesson(Long courseId, Long lessonId);
 }

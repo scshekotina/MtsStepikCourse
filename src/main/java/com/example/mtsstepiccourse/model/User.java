@@ -1,11 +1,15 @@
 package com.example.mtsstepiccourse.model;
 
+import com.example.mtsstepiccourse.dto.UserDto;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Set;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name="users")
 public class User {
@@ -19,4 +23,19 @@ public class User {
 
     @ManyToMany(mappedBy = "users")
     private Set<Course> courses;
+
+    public User(UserDto userDto) {
+        this.id = userDto.getId();
+        this.username = userDto.getUsername();
+    }
+
+    public void addCourse(Course course) {
+        course.getUsers().add(this);
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course) {
+        course.getUsers().remove(this);
+        courses.remove(course);
+    }
 }

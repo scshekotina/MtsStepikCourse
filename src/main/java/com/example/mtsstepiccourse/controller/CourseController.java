@@ -62,18 +62,19 @@ public class CourseController {
     }
 
 
+    @GetMapping("/courses/{course_id}/lessons")
+    public List<LessonDto> lessonTable(@PathVariable("course_id") Long courseId) {
+        return courseService.getLessons(courseId).stream()
+                .map(toLessonDtoMapper::lessonToLessonDto)
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("/courses/{course_id}/lessons")
     public LessonDto addLesson(@PathVariable("course_id") Long courseId, @Valid @RequestBody LessonDtoToEdit lessonDtoToEdit) {
         LessonDto lessonDto = toLessonDtoMapper.lessonDtoToEditToLessonDto(lessonDtoToEdit);
         lessonDto.setCourseId(courseId);
         Lesson lesson = courseService.addLesson(courseId, lessonDto);
         return toLessonDtoMapper.lessonToLessonDto(lesson);
-    }
-
-
-    @DeleteMapping("/courses/{course_id}/lessons/{id}")
-    public void deleteLesson(@PathVariable("course_id") Long courseId, @PathVariable Long id) {
-        courseService.removeLesson(courseId, id);
     }
 
 }

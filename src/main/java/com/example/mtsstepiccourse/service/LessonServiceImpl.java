@@ -4,23 +4,16 @@ import com.example.mtsstepiccourse.dto.LessonDto;
 import com.example.mtsstepiccourse.model.Lesson;
 import com.example.mtsstepiccourse.repository.LessonRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 @AllArgsConstructor
 public class LessonServiceImpl implements LessonService {
 
-    private LessonRepository lessonRepository;
-
-    @Override
-    @Transactional
-    public List<Lesson> findAll(Long courseId) {
-        return lessonRepository.findByCourse_Id(courseId);
-    }
+    private final LessonRepository lessonRepository;
 
     @Override
     public Optional<Lesson> findById(Long id) {
@@ -42,4 +35,10 @@ public class LessonServiceImpl implements LessonService {
         return Optional.of(lessonRepository.save(lesson));
     }
 
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Lesson lesson = lessonRepository.findById(id).orElseThrow();
+        lessonRepository.delete(lesson);
+    }
 }
