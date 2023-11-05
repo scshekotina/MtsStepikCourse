@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -26,7 +25,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Optional<Course> findById(Long id) {
-        return repository.findById(id);
+        return repository.findByIdWithUsers(id);
     }
 
     @Override
@@ -63,10 +62,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Lesson> getLessons(Long courseId) {
-        Course course = repository.findByIdWithLessons(courseId);
-        if (course == null) {
-            throw new NoSuchElementException();
-        }
+        Course course = repository.findByIdWithLessons(courseId).orElseThrow();
         return course.getLessons();
     }
 

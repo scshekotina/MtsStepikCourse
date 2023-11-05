@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -20,10 +19,7 @@ public class UserCoursesServiceImpl implements UserCoursesService {
 
     @Override
     public Set<Course> getCourses(Long userId) {
-        User user = userRepository.findByIdWithCourses(userId);
-        if (user == null) {
-            throw new NoSuchElementException();
-        }
+        User user = userRepository.findByIdWithCourses(userId).orElseThrow();
         return user.getCourses();
     }
 

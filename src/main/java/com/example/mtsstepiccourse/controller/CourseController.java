@@ -2,6 +2,7 @@ package com.example.mtsstepiccourse.controller;
 
 import com.example.mtsstepiccourse.dto.*;
 import com.example.mtsstepiccourse.mapper.ToCourseDtoMapper;
+import com.example.mtsstepiccourse.mapper.ToCourseWithUsersDtoMapper;
 import com.example.mtsstepiccourse.mapper.ToLessonDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.model.Lesson;
@@ -21,6 +22,7 @@ import static java.util.Objects.requireNonNullElse;
 public class CourseController {
     private final CourseService courseService;
     private final ToCourseDtoMapper toCourseDtoMapper;
+    private final ToCourseWithUsersDtoMapper toCourseWithUsersDtoMapper;
     private final ToLessonDtoMapper toLessonDtoMapper;
 
     @GetMapping("/courses")
@@ -31,8 +33,8 @@ public class CourseController {
     }
 
     @GetMapping("/courses/{id}")
-    public CourseDto getCourse(@PathVariable("id") Long id) {
-        return toCourseDtoMapper.courseToCourseDto(courseService.findById(id).orElseThrow());
+    public CourseWithUsersDto getCourse(@PathVariable("id") Long id) {
+        return toCourseWithUsersDtoMapper.courseToCourseWithUsersDto(courseService.findById(id).orElseThrow());
     }
 
     @PutMapping("/courses/{id}")
