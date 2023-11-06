@@ -367,3 +367,63 @@ databaseChangeLog:
             tableName: user_role
             columnNames: user_id, role_id
             constraintName: user_role_unique_id
+  - changeSet:
+      id: '2023110609'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createIndex:
+            indexName: idx_courses_author
+            tableName: courses
+            columns:
+              - column:
+                  name: author
+        - createIndex:
+            indexName: idx_courses_category
+            tableName: courses
+            columns:
+              - column:
+                  name: category_id
+        - createIndex:
+            indexName: idx_courses_duration
+            tableName: courses
+            columns:
+              - column:
+                  name: duration
+        - createIndex:
+            indexName: idx_lessons_module_id
+            tableName: lessons
+            columns:
+              - column:
+                  name: module_id
+        - createIndex:
+            indexName: idx_modules_course_id
+            tableName: modules
+            columns:
+              - column:
+                  name: course_id
+        - createIndex:
+            indexName: idx_rating_user_id_course_id
+            tableName: rating
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: course_id
+        - createIndex:
+            indexName: idx_user_role_user_id
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+        - createIndex:
+            indexName: idx_users_username
+            tableName: users
+            columns:
+              - column:
+                  name: username
+        - createIndex:
+            indexName: idx_users_email
+            tableName: users
+            columns:
+              - column:
+                  name: email
