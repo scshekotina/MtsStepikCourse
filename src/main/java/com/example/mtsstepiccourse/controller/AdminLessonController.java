@@ -1,8 +1,8 @@
 package com.example.mtsstepiccourse.controller;
 
-import com.example.mtsstepiccourse.dto.LessonDto;
 import com.example.mtsstepiccourse.dto.LessonToEditDto;
 import com.example.mtsstepiccourse.mapper.LessonDtoMapper;
+import com.example.mtsstepiccourse.model.Lesson;
 import com.example.mtsstepiccourse.service.LessonService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -16,19 +16,21 @@ public class AdminLessonController {
     private final LessonDtoMapper lessonDtoMapper;
 
     @PostMapping
-    public void createLesson(@Valid @RequestBody LessonToEditDto lessonToEditDto) {}
+    public void createLesson(@Valid @RequestBody LessonToEditDto lessonToEditDto) {
+        Lesson lesson = new Lesson(lessonToEditDto);
+        lessonService.create(lesson);
+    }
 
     @PutMapping("/{id}")
     public void updateLesson(@PathVariable Long id, @Valid @RequestBody LessonToEditDto lessonToEditDto) {
-        LessonDto lessonDto = lessonDtoMapper.lessonDtoToEditToLessonDto(lessonToEditDto);
-        lessonDto.setId(id);
-        lessonService.update(id, lessonDto).orElseThrow();
-
+        Lesson lesson = new Lesson(lessonToEditDto);
+        lesson.setId(id);
+        lessonService.update(id, lesson);
     }
 
     @GetMapping("/{id}")
     public LessonToEditDto getLesson(@PathVariable Long id) {
-        return null;
+        return lessonDtoMapper.lessonToLessonToEditDto(lessonService.findById(id));
     }
 
     @DeleteMapping("/{id}")

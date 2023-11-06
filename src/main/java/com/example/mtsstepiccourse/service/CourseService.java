@@ -1,22 +1,20 @@
 package com.example.mtsstepiccourse.service;
 
-import com.example.mtsstepiccourse.dto.CourseDto;
 import com.example.mtsstepiccourse.model.Course;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CourseService {
 
-    List<Course> findAll();
+    List<Course> simpleFindAll();
 
-    Optional<Course> findById(Long id);
+    Course findById(Long id);
 
-    Course create(CourseDto courseDto);
+    void create(Course course);
 
-    Optional<Course> update(Long id, CourseDto courseDto);
+    void update(Long id, Course course);
 
-    Optional<Course> deleteById(Long id);
+    void deleteById(Long id);
 
     List<Course> findByTitleLike(String prefix);
 

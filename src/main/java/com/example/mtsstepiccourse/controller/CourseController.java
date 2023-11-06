@@ -20,14 +20,14 @@ public class CourseController {
 
     @GetMapping
     public List<CourseSimpleDto> courseTable() {
-        return courseService.findAll().stream()
+        return courseService.simpleFindAll().stream()
                 .map(courseDtoMapper::courseToCourseSimpleDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public CourseDto getCourse(@PathVariable("id") Long id) {
-        return courseDtoMapper.courseToCourseDto(courseService.findById(id).orElseThrow());
+        return courseDtoMapper.courseToCourseDto(courseService.findById(id));
     }
 
     @GetMapping("/filter")

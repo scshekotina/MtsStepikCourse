@@ -1,6 +1,6 @@
 package com.example.mtsstepiccourse.dto;
 
-import com.example.mtsstepiccourse.model.Lesson;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 public class ModuleToEditDto {
+
+    @NotBlank(message = "Module's title had to be filled")
     private String title;
     private String text;
     private Long courseId;
-    private List<Lesson> lessons;
+    private List<LessonDto> lessons;
 }

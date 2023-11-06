@@ -15,6 +15,6 @@ public class AdminReportController {
 
     @GetMapping("/courses/{id}")
     public CourseWithUsersDto getCourseWithUsers(@PathVariable("id") Long id) {
-        return courseDtoMapper.courseToCourseWithUsersDto(courseService.findById(id).orElseThrow());
+        return courseDtoMapper.courseToCourseWithUsersDto(courseService.findById(id));
     }
 }

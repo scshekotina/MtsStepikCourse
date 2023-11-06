@@ -1,11 +1,13 @@
 package com.example.mtsstepiccourse.model;
 
+import com.example.mtsstepiccourse.dto.ModuleToEditDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -29,8 +31,20 @@ public class Module {
     @OneToMany(mappedBy = "module")
     private List<Lesson> lessons;
 
-    public void addLesson(Lesson lesson) {
-        lesson.setModule(this);
-        this.lessons.add(lesson);
+    public Module(Long id) {
+        this.id = id;
+    }
+
+    public Module(ModuleToEditDto dto) {
+        this.title = dto.getTitle();
+        if (dto.getCourseId() != null) {
+            this.course = new Course();
+            this.course.setId(dto.getCourseId());
+        }
+        if (dto.getLessons() != null) {
+            this.lessons = new ArrayList<>();
+            dto.getLessons().forEach(lessonDto ->
+                    this.lessons.add(new Lesson(lessonDto.getId())));
+        }
     }
 }

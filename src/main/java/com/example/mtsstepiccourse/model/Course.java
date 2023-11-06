@@ -1,10 +1,11 @@
 package com.example.mtsstepiccourse.model;
 
-import com.example.mtsstepiccourse.dto.CourseDto;
+import com.example.mtsstepiccourse.dto.CourseToEditDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,10 +23,14 @@ public class Course {
         this.title = title;
     }
 
-    public Course(CourseDto dto) {
-        this.id = dto.getId();
+    public Course(CourseToEditDto dto) {
         this.author = dto.getAuthor();
         this.title = dto.getTitle();
+        if (dto.getModules() != null) {
+            this.modules = new ArrayList<>();
+            dto.getModules().forEach(module
+                    -> this.modules.add(new Module(module.getId())));
+        }
     }
 
     @Id
@@ -50,8 +55,7 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
-    public void addModule(Module module) {
-        module.setCourse(this);
-        this.modules.add(module);
+    public Course(Long id) {
+        this.id = id;
     }
 }

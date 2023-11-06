@@ -11,5 +11,5 @@ public interface LessonDtoMapper {
 
     @Mapping(source = "module.id", target = "moduleId")
     LessonDto lessonToLessonDto(Lesson lesson);
-    LessonDto lessonDtoToEditToLessonDto(LessonToEditDto lessonToEditDto);
+    LessonToEditDto lessonToLessonToEditDto(Lesson lesson);
 }

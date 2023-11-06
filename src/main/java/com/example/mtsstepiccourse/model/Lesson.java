@@ -1,6 +1,6 @@
 package com.example.mtsstepiccourse.model;
 
-import com.example.mtsstepiccourse.dto.LessonDto;
+import com.example.mtsstepiccourse.dto.LessonToEditDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,10 +29,15 @@ public class Lesson {
     @ManyToOne
     private Module module;
 
-    public Lesson(LessonDto lessonDto, Module module) {
-        this.id = lessonDto.getId();
+    public Lesson(Long id) {
+        this.id = id;
+    }
+
+    public Lesson(LessonToEditDto lessonDto) {
         this.title = lessonDto.getTitle();
         this.text = lessonDto.getText();
-        this.module = module;
+        if (lessonDto.getModuleId() != null) {
+            this.module = new Module(lessonDto.getModuleId());
+        }
     }
 }

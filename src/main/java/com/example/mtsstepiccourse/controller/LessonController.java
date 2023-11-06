@@ -15,6 +15,6 @@ public class LessonController {
 
     @GetMapping("/{id}")
     public LessonDto getLesson(@PathVariable Long id) {
-        return lessonDtoMapper.lessonToLessonDto(lessonService.findById(id).orElseThrow());
+        return lessonDtoMapper.lessonToLessonDto(lessonService.findById(id));
     }
 }
