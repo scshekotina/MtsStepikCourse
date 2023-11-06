@@ -2,7 +2,7 @@ package com.example.mtsstepiccourse.controller;
 
 import com.example.mtsstepiccourse.dto.UserDto;
 import com.example.mtsstepiccourse.dto.UserDtoToEdit;
-import com.example.mtsstepiccourse.mapper.ToUserDtoMapper;
+import com.example.mtsstepiccourse.mapper.UserDtoMapper;
 import com.example.mtsstepiccourse.model.User;
 import com.example.mtsstepiccourse.service.UserService;
 import jakarta.validation.Valid;
@@ -18,31 +18,31 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private UserService userService;
-    private ToUserDtoMapper toUserDtoMapper;
+    private UserDtoMapper userDtoMapper;
 
     @GetMapping
     public List<UserDto> userTable() {
         return userService.findAll().stream()
-                .map(toUserDtoMapper::userToUserDto)
+                .map(userDtoMapper::userToUserDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public UserDto getUser(@PathVariable("id") Long id) {
-        return toUserDtoMapper.userToUserDto(userService.findById(id).orElseThrow());
+        return userDtoMapper.userToUserDto(userService.findById(id).orElseThrow());
     }
 
     @PostMapping()
     public UserDto createUser(@Valid @RequestBody UserDtoToEdit request) {
-        UserDto userDto = toUserDtoMapper.userDtoToEditToUserDto(request);
+        UserDto userDto = userDtoMapper.userDtoToEditToUserDto(request);
         User user = userService.create(userDto);
-        return toUserDtoMapper.userToUserDto(user);
+        return userDtoMapper.userToUserDto(user);
     }
 
     @PutMapping("/{id}")
     public synchronized void updateUser (@PathVariable Long id,
                                           @Valid @RequestBody UserDtoToEdit request) {
-        UserDto userDto = toUserDtoMapper.userDtoToEditToUserDto(request);
+        UserDto userDto = userDtoMapper.userDtoToEditToUserDto(request);
         userService.update(id, userDto).orElseThrow();
     }
 

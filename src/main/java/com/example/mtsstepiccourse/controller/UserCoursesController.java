@@ -1,7 +1,7 @@
 package com.example.mtsstepiccourse.controller;
 
 import com.example.mtsstepiccourse.dto.CourseDto;
-import com.example.mtsstepiccourse.mapper.ToCourseDtoMapper;
+import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.service.UserCoursesService;
 import lombok.AllArgsConstructor;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 public class UserCoursesController {
 
     private UserCoursesService userCoursesService;
-    private ToCourseDtoMapper toCourseDtoMapper;
+    private CourseDtoMapper courseDtoMapper;
 
     @GetMapping("/{user_id}/courses")
     public Set<CourseDto> getCourses(@PathVariable("user_id") Long userId) {
         Set<Course> courses = userCoursesService.getCourses(userId);
-        return (courses.stream().map(toCourseDtoMapper::courseToCourseDto).collect(Collectors.toSet()));
+        return (courses.stream().map(courseDtoMapper::courseToCourseDto).collect(Collectors.toSet()));
     }
 
     @PostMapping("/{user_id}/courses")

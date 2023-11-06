@@ -1,16 +1,15 @@
 package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.dto.CourseDto;
-import com.example.mtsstepiccourse.dto.LessonDto;
+import com.example.mtsstepiccourse.dto.ModuleDto;
 import com.example.mtsstepiccourse.model.Course;
-import com.example.mtsstepiccourse.model.Lesson;
 import com.example.mtsstepiccourse.model.Module;
 import com.example.mtsstepiccourse.repository.CourseRepository;
+import com.example.mtsstepiccourse.repository.ModuleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,67 +17,56 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseRepository repository;
+    private final CourseRepository courseRepository;
+    private final ModuleRepository moduleRepository;
 
     @Override
     public List<Course> findAll() {
-        return repository.findAll();
+        return courseRepository.findAll();
     }
 
     @Override
     public Optional<Course> findById(Long id) {
-        return repository.findByIdWithUsers(id);
+        return courseRepository.findByIdWithUsers(id);
     }
 
+
     @Override
+    @Transactional
     public Course create(CourseDto courseDto) {
         Course course = new Course(courseDto);
-        return repository.save(course);
+        List<Long> module_ids = courseDto.getModules().stream().map(ModuleDto::getCourseId).toList();
+        List<Module> modules = moduleRepository.findAllById(module_ids);
+        modules.forEach(course::addModule);
+        return courseRepository.save(course);
     }
 
     @Override
     @Transactional
     public Optional<Course> update(Long id, CourseDto courseDto){
-        Optional<Course> courseFromRepository = repository.findById(id);
+        Optional<Course> courseFromRepository = courseRepository.findById(id);
         if(courseFromRepository.isEmpty()) {
             return courseFromRepository;
         }
         Course course = new Course(courseDto);
         course.setId(id);
-        course.setModules(courseFromRepository.get().getModules());
-        return Optional.of(repository.save(course));
+        List<Long> module_ids = courseDto.getModules().stream().map(ModuleDto::getCourseId).toList();
+        List<Module> modules = moduleRepository.findAllById(module_ids);
+        course.setModules(modules);
+        return Optional.of(courseRepository.save(course));
     }
 
     @Override
     @Transactional
     public Optional<Course> deleteById(Long id) {
-        Optional<Course> byId = repository.findById(id);
-        byId.ifPresent(repository::delete);
+        Optional<Course> byId = courseRepository.findById(id);
+        byId.ifPresent(courseRepository::delete);
         return byId;
     }
 
     @Override
     public List<Course> findByTitleLike(String title) {
-        return repository.findByTitleLike("%" + title + "%");
+        return courseRepository.findByTitleLike("%" + title + "%");
     }
 
-    @Override
-    public List<Lesson> getLessons(Long courseId) {
-        Course course = repository.findByIdWithLessons(courseId).orElseThrow();
-        List<Lesson> lessons = new ArrayList<>();
-        for(Module m : course.getModules()) {
-            lessons.addAll(m.getLessons());
-        }
-        return lessons;
-    }
-
-    @Override
-    @Transactional
-    public Module addModule(Long moduleId, LessonDto lessonDto) {
-        Course course = repository.findById(moduleId).orElseThrow();
-        Module module = new Module();
-        course.addModule(module);
-        repository.save(course);
-        return module;
-    }
 }
