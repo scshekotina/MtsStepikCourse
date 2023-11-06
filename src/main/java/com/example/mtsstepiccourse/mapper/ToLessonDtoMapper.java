@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ToLessonDtoMapper {
 
-    @Mapping(source = "course.id", target = "courseId")
+    @Mapping(source = "module.id", target = "moduleId")
     LessonDto lessonToLessonDto(Lesson lesson);
     LessonDto lessonDtoToEditToLessonDto(LessonDtoToEdit lessonDtoToEdit);
 }

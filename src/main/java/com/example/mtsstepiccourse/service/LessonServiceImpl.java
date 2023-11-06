@@ -31,7 +31,7 @@ public class LessonServiceImpl implements LessonService {
         lesson.setId(id);
         lesson.setText(lessonDto.getText());
         lesson.setTitle(lessonDto.getTitle());
-        lesson.setCourse(lessonFromRepository.get().getCourse());
+        lesson.setModule(lessonFromRepository.get().getModule());
         return Optional.of(lessonRepository.save(lesson));
     }
 

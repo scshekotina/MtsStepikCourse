@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    @Query("select c from Course c join fetch c.lessons where c.id=:id")
+    @Query("select c from Course c join fetch c.modules m join fetch m.lessons where c.id=:id")
     @Transactional
     Optional<Course> findByIdWithLessons(@Param("id") Long id);
 

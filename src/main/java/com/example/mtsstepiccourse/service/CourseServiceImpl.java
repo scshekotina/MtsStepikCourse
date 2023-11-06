@@ -4,11 +4,13 @@ import com.example.mtsstepiccourse.dto.CourseDto;
 import com.example.mtsstepiccourse.dto.LessonDto;
 import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.model.Lesson;
+import com.example.mtsstepiccourse.model.Module;
 import com.example.mtsstepiccourse.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
         }
         Course course = new Course(courseDto);
         course.setId(id);
-        course.setLessons(courseFromRepository.get().getLessons());
+        course.setModules(courseFromRepository.get().getModules());
         return Optional.of(repository.save(course));
     }
 
@@ -63,16 +65,20 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Lesson> getLessons(Long courseId) {
         Course course = repository.findByIdWithLessons(courseId).orElseThrow();
-        return course.getLessons();
+        List<Lesson> lessons = new ArrayList<>();
+        for(Module m : course.getModules()) {
+            lessons.addAll(m.getLessons());
+        }
+        return lessons;
     }
 
     @Override
     @Transactional
-    public Lesson addLesson(Long courseId, LessonDto lessonDto) {
-        Course course = repository.findById(courseId).orElseThrow();
-        Lesson lesson = new Lesson(lessonDto, course);
-        course.addLesson(lesson);
+    public Module addModule(Long moduleId, LessonDto lessonDto) {
+        Course course = repository.findById(moduleId).orElseThrow();
+        Module module = new Module();
+        course.addModule(module);
         repository.save(course);
-        return lesson;
+        return module;
     }
 }

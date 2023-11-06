@@ -9,11 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LessonDto {
-
-    private Long id;
+public class ModuleDtoToEdit {
     private String title;
     private String text;
-    private Long moduleId;
-
+    private Long courseId;
 }

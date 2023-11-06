@@ -13,5 +13,6 @@ public class LessonDtoToEdit {
 
     private String title;
     private String text;
+    private Long moduleId;
 
 }

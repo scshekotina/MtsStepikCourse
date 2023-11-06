@@ -5,7 +5,6 @@ import com.example.mtsstepiccourse.mapper.ToCourseDtoMapper;
 import com.example.mtsstepiccourse.mapper.ToCourseWithUsersDtoMapper;
 import com.example.mtsstepiccourse.mapper.ToLessonDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
-import com.example.mtsstepiccourse.model.Lesson;
 import com.example.mtsstepiccourse.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -71,12 +70,12 @@ public class CourseController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/courses/{course_id}/lessons")
-    public LessonDto addLesson(@PathVariable("course_id") Long courseId, @Valid @RequestBody LessonDtoToEdit lessonDtoToEdit) {
-        LessonDto lessonDto = toLessonDtoMapper.lessonDtoToEditToLessonDto(lessonDtoToEdit);
-        lessonDto.setCourseId(courseId);
-        Lesson lesson = courseService.addLesson(courseId, lessonDto);
-        return toLessonDtoMapper.lessonToLessonDto(lesson);
-    }
+//    @PostMapping("/courses/{module_id}/lessons")
+//    public LessonDto addLesson(@PathVariable("module_id") Long moduleId, @Valid @RequestBody LessonDtoToEdit lessonDtoToEdit) {
+//        LessonDto lessonDto = toLessonDtoMapper.lessonDtoToEditToLessonDto(lessonDtoToEdit);
+//        lessonDto.setModuleId(moduleId);
+//        Lesson lesson = courseService.addModule(moduleId, lessonDto);
+//        return toLessonDtoMapper.lessonToLessonDto(lesson);
+//    }
 
 }
