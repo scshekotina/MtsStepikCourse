@@ -40,14 +40,18 @@ public class Course {
     @Column
     private String title;
 
-    @OneToMany(mappedBy = "course", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Lesson> lessons;
+    @OneToMany(mappedBy = "course")
+    private List<Module> modules;
 
     @ManyToMany
+    @JoinTable(
+            name = "rating",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
-    public void addLesson(Lesson lesson) {
-        lesson.setCourse(this);
-        this.lessons.add(lesson);
+    public void addModule(Module module) {
+        module.setCourse(this);
+        this.modules.add(module);
     }
 }

@@ -1,6 +1,114 @@
 databaseChangeLog:
   - changeSet:
-      id: '2023102701'
+      id: '2023110601'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'roles'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: role_id_pk
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+  - changeSet:
+      id: '2023110602'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'users'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_id_pk
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: firstname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lastname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: avatar
+                  type: oid
+              - column:
+                  name: registration_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_upd_user_id
+                    references: users(id)
+              - column:
+                  name: deleting_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: deleting_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_del_user_id
+                    references: users(id)
+  - changeSet:
+      id: '2023110603'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'categories'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: category_id_pk
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+  - changeSet:
+      id: '2023110604'
       author: 'Anastasiya Scshekotina'
       changes:
         - createTable:
@@ -13,13 +121,160 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: courses_id_pk
               - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: about
+                  type: varchar(255)
+              - column:
                   name: author
                   type: varchar(255)
               - column:
+                  name: date
+                  type: date
+              - column:
+                  name: creating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: creating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_course_create_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: updating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_course_upd_user_id
+                    references: users(id)
+              - column:
+                  name: deleting_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: deleting_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_course_del_user_id
+                    references: users(id)
+              - column:
+                  name: duration
+                  type: interval
+              - column:
+                  name: tag
+                  type: varchar(255)
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_course_category_id
+                    references: categories(id)
+  - changeSet:
+      id: '2023110605'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'rating'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: rating_id_pk
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_rating_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: course_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_rating_course_id
+                    references: courses(id)
+                    nullable: false
+              - column:
+                  name: score
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: rating
+            columnNames: user_id, course_id
+            constraintName: user_course_unique_id
+  - changeSet:
+      id: '2023110606'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'modules'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: module_id_pk
+              - column:
                   name: title
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: about
+                  type: varchar(255)
+              - column:
+                  name: creating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_module_create_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: updating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_module_upd_user_id
+                    references: users(id)
+              - column:
+                  name: deleting_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: deleting_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_module_del_user_id
+                    references: users(id)
+              - column:
+                  name: course_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_module_course_id
+                    references: courses(id)
   - changeSet:
-      id: '2023102702'
+      id: '2023110607'
       author: 'Anastasiya Scshekotina'
       changes:
         - createTable:
@@ -32,5 +287,83 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: lesson_id_pk
               - column:
-                  name: name
+                  name: title
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: module_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_lesson_module_id
+                    references: modules(id)
+              - column:
+                  name: about
+                  type: varchar(255)
+              - column:
+                  name: creating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_lesson_create_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: updating_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updating_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_lesson_upd_user_id
+                    references: users(id)
+              - column:
+                  name: deleting_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: deleting_author_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_lesson_del_user_id
+                    references: users(id)
+              - column:
+                  name: content
+                  type: oid
+  - changeSet:
+      id: '2023110608'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - createTable:
+            tableName: 'user_role'
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_role_id_pk
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_role_course_user_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_role_role_id
+                    references: roles(id)
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: user_role
+            columnNames: user_id, role_id
+            constraintName: user_role_unique_id

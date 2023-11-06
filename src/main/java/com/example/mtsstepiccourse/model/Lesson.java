@@ -23,16 +23,16 @@ public class Lesson {
     private String title;
 
     @Lob
-    @Column
+    @Column(name="content")
     private String text;
 
-    @ManyToOne(optional = false)
-    private Course course;
+    @ManyToOne
+    private Module module;
 
-    public Lesson(LessonDto lessonDto, Course course) {
+    public Lesson(LessonDto lessonDto, Module module) {
         this.id = lessonDto.getId();
         this.title = lessonDto.getTitle();
         this.text = lessonDto.getText();
-        this.course = course;
+        this.module = module;
     }
 }
