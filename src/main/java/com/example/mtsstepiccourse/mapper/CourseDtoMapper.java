@@ -11,8 +11,7 @@ import org.mapstruct.Mapper;
 public interface CourseDtoMapper {
 
     CourseDto courseToCourseDto(Course course);
-    CourseToEditDto courseToCourseToDto(Course course);
-    CourseDto courseRequestToUpdateToCourseDto(CourseToEditDto request);
+    CourseToEditDto courseToCourseToEditDto(Course course);
     CourseSimpleDto courseToCourseSimpleDto(Course course);
     CourseWithUsersDto courseToCourseWithUsersDto(Course course);
 }
