@@ -12,4 +12,7 @@ import lombok.Setter;
 public class UserDto {
     private Long id;
     private String username;
+    private String firstname;
+    private String lastname;
+    private String email;
 }

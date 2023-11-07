@@ -1,19 +1,17 @@
 package com.example.mtsstepiccourse.service;
 
-import com.example.mtsstepiccourse.dto.UserDto;
 import com.example.mtsstepiccourse.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     List<User> findAll();
 
-    Optional<User> findById(Long id);
+    User findById(Long id);
 
-    User create(UserDto userDto);
+    void create(User user);
 
-    Optional<User> update(Long id, UserDto userDto);
+    void update(Long id, User user);
 
-    Optional<User> deleteById(Long id);
+    void deleteById(Long id);
 }

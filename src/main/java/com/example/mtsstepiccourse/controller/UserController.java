@@ -1,7 +1,7 @@
 package com.example.mtsstepiccourse.controller;
 
 import com.example.mtsstepiccourse.dto.UserDto;
-import com.example.mtsstepiccourse.dto.UserDtoToEdit;
+import com.example.mtsstepiccourse.dto.UserToEditDto;
 import com.example.mtsstepiccourse.mapper.UserDtoMapper;
 import com.example.mtsstepiccourse.model.User;
 import com.example.mtsstepiccourse.service.UserService;
@@ -28,27 +28,26 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDto getUser(@PathVariable("id") Long id) {
-        return userDtoMapper.userToUserDto(userService.findById(id).orElseThrow());
+    public UserToEditDto getUser(@PathVariable("id") Long id) {
+        return userDtoMapper.userToUserToEditDto(userService.findById(id));
     }
 
     @PostMapping()
-    public UserDto createUser(@Valid @RequestBody UserDtoToEdit request) {
-        UserDto userDto = userDtoMapper.userDtoToEditToUserDto(request);
-        User user = userService.create(userDto);
-        return userDtoMapper.userToUserDto(user);
+    public void createUser(@Valid @RequestBody UserToEditDto userToEditDto) {
+        User user = new User(userToEditDto);
+        userService.create(user);
     }
 
     @PutMapping("/{id}")
     public synchronized void updateUser (@PathVariable Long id,
-                                          @Valid @RequestBody UserDtoToEdit request) {
-        UserDto userDto = userDtoMapper.userDtoToEditToUserDto(request);
-        userService.update(id, userDto).orElseThrow();
+                                          @Valid @RequestBody UserToEditDto userToEditDto) {
+        User user = new User(userToEditDto);
+        userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id).orElseThrow();
+        userService.deleteById(id);
     }
 
 }
