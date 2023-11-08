@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -28,6 +30,18 @@ public class Lesson {
 
     @ManyToOne
     private Module module;
+
+    private LocalDateTime creatingDate;
+    @ManyToOne
+    private User creatingAuthor;
+
+    private LocalDateTime updatingDate;
+    @ManyToOne
+    private User updatingAuthor;
+
+    private LocalDateTime deletingDate;
+    @ManyToOne
+    private User deletingAuthor;
 
     public Lesson(Long id) {
         this.id = id;

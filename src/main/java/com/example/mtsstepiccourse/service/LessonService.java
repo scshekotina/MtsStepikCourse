@@ -2,7 +2,11 @@ package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.model.Lesson;
 
+import java.util.List;
+
 public interface LessonService {
+
+    List<Lesson> findAll();
 
     Lesson findById(Long id);
 
