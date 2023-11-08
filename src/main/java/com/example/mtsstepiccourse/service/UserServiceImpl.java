@@ -2,7 +2,6 @@ package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.model.User;
 import com.example.mtsstepiccourse.repository.UserRepository;
-import com.example.mtsstepiccourse.util.title.UserUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(User user) {
-        user.setUpdatingAuthor(UserUtil.getCurrentUser());
-        user.setUpdatingDate(LocalDateTime.now());
+        user.markAsUpdated();
         user.setRegistrationDate(LocalDateTime.now());
         userRepository.save(user);
     }
@@ -40,8 +38,7 @@ public class UserServiceImpl implements UserService {
         User fromRepository = userRepository.findById(id).orElseThrow();
         user.setId(id);
         user.setCourses(fromRepository.getCourses());
-        user.setUpdatingAuthor(UserUtil.getCurrentUser());
-        user.setUpdatingDate(LocalDateTime.now());
+        user.markAsUpdated();
         user.setRegistrationDate(fromRepository.getRegistrationDate());
         userRepository.save(user);
     }
@@ -50,8 +47,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        user.setDeletingAuthor(UserUtil.getCurrentUser());
-        user.setDeletingDate(LocalDateTime.now());
+        user.markAsDeleted();
         userRepository.save(user);
     }
 }

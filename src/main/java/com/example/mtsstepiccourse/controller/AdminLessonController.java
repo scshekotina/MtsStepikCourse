@@ -1,6 +1,5 @@
 package com.example.mtsstepiccourse.controller;
 
-import com.example.mtsstepiccourse.dto.LessonDto;
 import com.example.mtsstepiccourse.dto.LessonToEditDto;
 import com.example.mtsstepiccourse.mapper.LessonDtoMapper;
 import com.example.mtsstepiccourse.model.Lesson;
@@ -9,19 +8,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/lessons")
 public class AdminLessonController {
     private final LessonService lessonService;
     private final LessonDtoMapper lessonDtoMapper;
-
-    @GetMapping
-    public List<LessonDto> lessonTable() {
-        return lessonService.findAll().stream().map(lessonDtoMapper::lessonToLessonDto).toList();
-    }
 
     @PostMapping
     public void createLesson(@Valid @RequestBody LessonToEditDto lessonToEditDto) {

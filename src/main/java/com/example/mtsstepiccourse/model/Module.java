@@ -16,26 +16,22 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name="modules")
-public class Module {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Module extends UpdatableAndDeletableEntityWithCreatingData {
     @Column
     private String title;
 
     @ManyToOne
     private Course course;
 
-    @OneToMany(mappedBy = "module")
+    @OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
     private List<Lesson> lessons;
 
     public Module(Long id) {
-        this.id = id;
+        super(id);
     }
 
     public Module(ModuleToEditDto dto) {
+        super();
         this.title = dto.getTitle();
         if (dto.getCourseId() != null) {
             this.course = new Course();
