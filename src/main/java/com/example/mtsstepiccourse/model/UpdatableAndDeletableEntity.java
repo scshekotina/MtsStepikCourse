@@ -4,12 +4,10 @@ import com.example.mtsstepiccourse.util.title.UserUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -26,6 +24,10 @@ public abstract class UpdatableAndDeletableEntity {
     private LocalDateTime deletingDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private User deletingAuthor;
+
+    public UpdatableAndDeletableEntity() {
+        markAsUpdated();
+    }
 
     public UpdatableAndDeletableEntity(Long id) {
         this.id = id;

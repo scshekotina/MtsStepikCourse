@@ -4,12 +4,9 @@ import com.example.mtsstepiccourse.util.title.UserUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -19,6 +16,11 @@ public abstract class UpdatableAndDeletableEntityWithCreatingData extends Updata
     private LocalDateTime creatingDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private User creatingAuthor;
+
+    public UpdatableAndDeletableEntityWithCreatingData() {
+        super();
+        markAsCreatedAndUpdated();
+    }
 
     public UpdatableAndDeletableEntityWithCreatingData(Long id) {
         super(id);
