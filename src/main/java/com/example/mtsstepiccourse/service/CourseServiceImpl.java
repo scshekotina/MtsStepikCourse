@@ -24,7 +24,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course findById(Long id) {
-        return courseRepository.findByIdWithLessons(id).orElseThrow();
+        return courseRepository.findByIdWithUsers(id).orElseThrow();
     }
 
     @Override
@@ -39,26 +39,22 @@ public class CourseServiceImpl implements CourseService {
                     }).toList();
             course.setModules(modules);
         }
-        course.markAsCreatedAndUpdated();
         courseRepository.save(course);
     }
 
     @Override
     @Transactional
     public void update(Long id, Course course){
-        Course fromRepo = courseRepository.findById(id).orElseThrow();
+        courseRepository.findById(id).orElseThrow();
         course.setId(id);
-        course.markAsCreated(fromRepo.getCreatingAuthor(),fromRepo.getCreatingDate());
-        course.markAsUpdated();
         create(course);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Course course = courseRepository.findById(id).orElseThrow();
-        course.markAsDeleted();
-        courseRepository.save(course);
+        Course byId = courseRepository.findById(id).orElseThrow();
+        courseRepository.delete(byId);
     }
 
     @Override

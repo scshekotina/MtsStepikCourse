@@ -13,22 +13,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Data
 @Entity
 @Table(name="courses")
-public class Course extends UpdatableAndDeletableEntityWithCreatingData{
-
-    public Course(Long id) {
-        super(id);
-    }
+public class Course {
 
     public Course(String author, String title) {
-        super();
         this.author = author;
         this.title = title;
     }
 
     public Course(CourseToEditDto dto) {
-        super();
         this.author = dto.getAuthor();
         this.title = dto.getTitle();
         if (dto.getModules() != null) {
@@ -37,6 +32,10 @@ public class Course extends UpdatableAndDeletableEntityWithCreatingData{
                     -> this.modules.add(new Module(module.getId())));
         }
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "Course author has to be filled")
     @Column
@@ -56,5 +55,7 @@ public class Course extends UpdatableAndDeletableEntityWithCreatingData{
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
-
+    public Course(Long id) {
+        this.id = id;
+    }
 }

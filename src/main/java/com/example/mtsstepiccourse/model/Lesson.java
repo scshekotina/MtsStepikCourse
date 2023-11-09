@@ -7,13 +7,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name="lessons")
-public class Lesson extends UpdatableAndDeletableEntityWithCreatingData {
+public class Lesson {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private String title;
@@ -25,12 +31,23 @@ public class Lesson extends UpdatableAndDeletableEntityWithCreatingData {
     @ManyToOne
     private Module module;
 
+    private LocalDateTime creatingDate;
+    @ManyToOne
+    private User creatingAuthor;
+
+    private LocalDateTime updatingDate;
+    @ManyToOne
+    private User updatingAuthor;
+
+    private LocalDateTime deletingDate;
+    @ManyToOne
+    private User deletingAuthor;
+
     public Lesson(Long id) {
-        super(id);
+        this.id = id;
     }
 
     public Lesson(LessonToEditDto lessonDto) {
-        super();
         this.title = lessonDto.getTitle();
         this.text = lessonDto.getText();
         if (lessonDto.getModuleId() != null) {
