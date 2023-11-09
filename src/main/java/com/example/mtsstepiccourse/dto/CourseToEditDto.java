@@ -16,6 +16,6 @@ public class CourseToEditDto {
     @NotBlank(message = "Course title had to be filled")
     private String title;
 
-    private List<ModuleDto> modules;
+    private List<Long> moduleIds;
 
 }

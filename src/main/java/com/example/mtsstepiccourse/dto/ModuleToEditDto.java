@@ -18,5 +18,5 @@ public class ModuleToEditDto {
     private String title;
     private String text;
     private Long courseId;
-    private List<LessonDto> lessons;
+    private List<Long> lessonIds;
 }

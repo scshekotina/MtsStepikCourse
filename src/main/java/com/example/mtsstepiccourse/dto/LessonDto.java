@@ -14,6 +14,7 @@ public class LessonDto {
     private Long id;
     private String title;
     private String text;
-    private Long moduleId;
+    private ModuleSimpleDto module;
+    private CourseSimpleDto course;
 
 }

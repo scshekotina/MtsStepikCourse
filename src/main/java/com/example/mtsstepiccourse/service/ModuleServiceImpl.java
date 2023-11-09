@@ -17,7 +17,6 @@ import java.util.List;
 public class ModuleServiceImpl implements ModuleService {
     private final ModuleRepository moduleRepository;
     private final CourseRepository courseRepository;
-
     private final LessonRepository lessonRepository;
 
     @Override
@@ -42,14 +41,17 @@ public class ModuleServiceImpl implements ModuleService {
                     .toList();
             module.setLessons(lessons);
         }
+        module.markAsCreatedAndUpdated();
         moduleRepository.save(module);
     }
 
     @Transactional
     @Override
     public void update(Long id, Module module) {
-        moduleRepository.findById(id).orElseThrow();
+        Module fromRepo = moduleRepository.findById(id).orElseThrow();
         module.setId(id);
+        module.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
+        module.markAsUpdated();
         create(module);
     }
 
@@ -57,6 +59,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Transactional
     public void delete(Long id) {
         Module module = moduleRepository.findById(id).orElseThrow();
-        moduleRepository.delete(module);
+        module.markAsDeleted();
+        moduleRepository.save(module);
     }
 }

@@ -15,11 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name="users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends UpdatableAndDeletableEntity{
 
     @Column
     @NotBlank(message = "Username has to be filled")
@@ -47,15 +43,12 @@ public class User {
 
     private LocalDateTime registrationDate;
 
-    private LocalDateTime updatingDate;
-    @ManyToOne
-    private User updatingAuthor;
-
-    private LocalDateTime deletingDate;
-    @ManyToOne
-    private User deletingAuthor;
+    public User(Long id) {
+        super(id);
+    }
 
     public User(UserToEditDto userDto) {
+        super();
         this.username = userDto.getUsername();
         this.password = userDto.getPassword();
         this.firstname = userDto.getFirstname();

@@ -1,53 +1,60 @@
 package com.example.mtsstepiccourse.controller;
 
-import com.example.mtsstepiccourse.dto.UserDto;
-import com.example.mtsstepiccourse.dto.UserToEditDto;
-import com.example.mtsstepiccourse.mapper.UserDtoMapper;
-import com.example.mtsstepiccourse.model.User;
-import com.example.mtsstepiccourse.service.UserService;
-import jakarta.validation.Valid;
+import com.example.mtsstepiccourse.dto.*;
+import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
+import com.example.mtsstepiccourse.mapper.LessonDtoMapper;
+import com.example.mtsstepiccourse.mapper.ModuleDtoMapper;
+import com.example.mtsstepiccourse.service.CourseService;
+import com.example.mtsstepiccourse.service.LessonService;
+import com.example.mtsstepiccourse.service.ModuleService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNullElse;
+
 @AllArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping
 public class UserController {
+    private final CourseService courseService;
+    private final LessonService lessonService;
+    private final ModuleService moduleService;
 
-    private UserService userService;
-    private UserDtoMapper userDtoMapper;
+    private final CourseDtoMapper courseDtoMapper;
+    private final ModuleDtoMapper moduleDtoMapper;
+    private final LessonDtoMapper lessonDtoMapper;
 
-    @GetMapping
-    public List<UserDto> userTable() {
-        return userService.findAll().stream()
-                .map(userDtoMapper::userToUserDto)
+
+
+    @GetMapping("/courses")
+    public List<CourseSimpleDto> courseTable() {
+        return courseService.simpleFindAll().stream()
+                .map(courseDtoMapper::courseToCourseSimpleDto)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public UserToEditDto getUser(@PathVariable("id") Long id) {
-        return userDtoMapper.userToUserToEditDto(userService.findById(id));
+    @GetMapping("/courses/{id}")
+    public CourseDto getCourse(@PathVariable("id") Long id) {
+        return courseDtoMapper.courseToCourseDto(courseService.findById(id));
     }
 
-    @PostMapping()
-    public void createUser(@Valid @RequestBody UserToEditDto userToEditDto) {
-        User user = new User(userToEditDto);
-        userService.create(user);
+    @GetMapping("/filter")
+    public List<CourseDto> getCoursesByTitlePrefix(@RequestParam(name = "titlePrefix", required = false) String titlePrefix) {
+        return courseService.findByTitleLike(requireNonNullElse(titlePrefix, "")).stream()
+                .map(courseDtoMapper::courseToCourseDto)
+                .collect(Collectors.toList());
     }
 
-    @PutMapping("/{id}")
-    public synchronized void updateUser (@PathVariable Long id,
-                                          @Valid @RequestBody UserToEditDto userToEditDto) {
-        User user = new User(userToEditDto);
-        userService.update(id, user);
+    @GetMapping("/modules/{id}")
+    public ModuleDto getModule(@PathVariable Long id) {
+        return moduleDtoMapper.moduleToModuleDto(moduleService.findById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+    @GetMapping("/lessons/{id}")
+    public LessonDto getLesson(@PathVariable Long id) {
+        return lessonDtoMapper.lessonToLessonDto(lessonService.findById(id));
     }
-
 }

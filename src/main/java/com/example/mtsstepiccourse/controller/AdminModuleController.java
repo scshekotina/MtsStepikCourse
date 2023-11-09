@@ -1,5 +1,6 @@
 package com.example.mtsstepiccourse.controller;
 
+import com.example.mtsstepiccourse.dto.ModuleDto;
 import com.example.mtsstepiccourse.dto.ModuleToEditDto;
 import com.example.mtsstepiccourse.mapper.ModuleDtoMapper;
 import com.example.mtsstepiccourse.model.Module;
@@ -29,8 +30,8 @@ public class AdminModuleController {
     }
 
     @GetMapping("/{id}")
-    public ModuleToEditDto getModule(@PathVariable Long id) {
-        return mapper.moduleToModuleToEditDto(moduleService.findById(id));
+    public ModuleDto getModule(@PathVariable Long id) {
+        return mapper.moduleToModuleDto(moduleService.findById(id));
     }
 
     @DeleteMapping("/{id}")

@@ -1,17 +1,17 @@
 package com.example.mtsstepiccourse.mapper;
 
-import com.example.mtsstepiccourse.dto.CourseDto;
-import com.example.mtsstepiccourse.dto.CourseToEditDto;
-import com.example.mtsstepiccourse.dto.CourseSimpleDto;
-import com.example.mtsstepiccourse.dto.CourseWithUsersDto;
+import com.example.mtsstepiccourse.dto.*;
 import com.example.mtsstepiccourse.model.Course;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        uses = ModuleDtoMapper.class)
 public interface CourseDtoMapper {
+
+    CourseSimpleDto courseToCourseSimpleDto(Course course);
 
     CourseDto courseToCourseDto(Course course);
     CourseToEditDto courseToCourseToEditDto(Course course);
-    CourseSimpleDto courseToCourseSimpleDto(Course course);
+    CourseOnlyModulesDto courseToCourseOnlyModulesDtoDto(Course course);
     CourseWithUsersDto courseToCourseWithUsersDto(Course course);
 }

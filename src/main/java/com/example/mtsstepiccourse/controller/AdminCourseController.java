@@ -1,5 +1,6 @@
 package com.example.mtsstepiccourse.controller;
 
+import com.example.mtsstepiccourse.dto.CourseOnlyModulesDto;
 import com.example.mtsstepiccourse.dto.CourseToEditDto;
 import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
@@ -16,8 +17,8 @@ public class AdminCourseController {
     private final CourseDtoMapper courseDtoMapper;
 
     @GetMapping("/{id}")
-    public CourseToEditDto getCourse(@PathVariable("id") Long id) {
-        return courseDtoMapper.courseToCourseToEditDto(courseService.findById(id));
+    public CourseOnlyModulesDto getCourse(@PathVariable("id") Long id) {
+        return courseDtoMapper.courseToCourseOnlyModulesDtoDto(courseService.findById(id));
     }
 
     @PostMapping

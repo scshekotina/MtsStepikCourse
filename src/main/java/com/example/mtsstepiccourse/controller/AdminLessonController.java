@@ -9,19 +9,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("/admin/lessons")
 public class AdminLessonController {
     private final LessonService lessonService;
     private final LessonDtoMapper lessonDtoMapper;
-
-    @GetMapping
-    public List<LessonDto> lessonTable() {
-        return lessonService.findAll().stream().map(lessonDtoMapper::lessonToLessonDto).toList();
-    }
 
     @PostMapping
     public void createLesson(@Valid @RequestBody LessonToEditDto lessonToEditDto) {
@@ -37,8 +30,8 @@ public class AdminLessonController {
     }
 
     @GetMapping("/{id}")
-    public LessonToEditDto getLesson(@PathVariable Long id) {
-        return lessonDtoMapper.lessonToLessonToEditDto(lessonService.findById(id));
+    public LessonDto getLesson(@PathVariable Long id) {
+        return lessonDtoMapper.lessonToLessonDto(lessonService.findById(id));
     }
 
     @DeleteMapping("/{id}")
