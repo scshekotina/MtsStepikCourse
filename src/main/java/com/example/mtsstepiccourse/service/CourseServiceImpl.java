@@ -30,17 +30,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void create(Course course) {
-        if (course.getModules() != null) {
-            List<Module> modules = course.getModules().stream()
-                    .map(m -> {
-                        Module fromRepo = moduleRepository.findByIdAndDeletingDateIsNull(m.getId()).orElseThrow();
-                        fromRepo.setCourse(course);
-                        return fromRepo;
-                    }).toList();
-            course.setModules(modules);
-        }
         course.markAsCreatedAndUpdated();
-        courseRepository.save(course);
+        save(course);
     }
 
     @Override
@@ -50,7 +41,21 @@ public class CourseServiceImpl implements CourseService {
         course.setId(id);
         course.markAsCreated(fromRepo.getCreatingAuthor(),fromRepo.getCreatingDate());
         course.markAsUpdated();
-        create(course);
+        save(course);
+    }
+
+    private void save(Course course) {
+        if (course.getModules() != null) {
+            List<Module> modules = course.getModules().stream()
+                    .map(m -> {
+                        Module fromRepo = moduleRepository.findByIdAndDeletingDateIsNull(m.getId()).orElseThrow();
+                        fromRepo.setCourse(course);
+                        fromRepo.markAsUpdated();
+                        return fromRepo;
+                    }).toList();
+            course.setModules(modules);
+        }
+        courseRepository.save(course);
     }
 
     @Override

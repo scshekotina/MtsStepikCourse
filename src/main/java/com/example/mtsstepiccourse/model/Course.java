@@ -10,12 +10,15 @@ import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name="courses")
 public class Course extends UpdatableAndDeletableEntityWithCreatingData{
+
+    public Course() {
+        super();
+    }
 
     public Course(Long id) {
         super(id);

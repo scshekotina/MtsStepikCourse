@@ -4,10 +4,8 @@ import com.example.mtsstepiccourse.dto.LessonToEditDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -24,6 +22,10 @@ public class Lesson extends UpdatableAndDeletableEntityWithCreatingData {
 
     @ManyToOne
     private Module module;
+
+    public Lesson() {
+        super();
+    }
 
     public Lesson(Long id) {
         super(id);

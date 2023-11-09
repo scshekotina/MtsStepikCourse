@@ -27,22 +27,8 @@ public class ModuleServiceImpl implements ModuleService {
     @Transactional
     @Override
     public void create(Module module) {
-        if (module.getCourse() != null) {
-            Course course = courseRepository.findByIdAndDeletingDateIsNull(module.getCourse().getId()).orElseThrow();
-            module.setCourse(course);
-        }
-        if (module.getLessons() != null) {
-            List<Lesson> lessons = module.getLessons().stream()
-                    .map(l -> {
-                        Lesson lesson = lessonRepository.findByIdAndDeletingDateIsNull(l.getId()).orElseThrow();
-                        lesson.setModule(module);
-                        return lesson;
-                    })
-                    .toList();
-            module.setLessons(lessons);
-        }
         module.markAsCreatedAndUpdated();
-        moduleRepository.save(module);
+        save(module);
     }
 
     @Transactional
@@ -52,7 +38,27 @@ public class ModuleServiceImpl implements ModuleService {
         module.setId(id);
         module.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
         module.markAsUpdated();
-        create(module);
+        save(module);
+    }
+
+    private void save(Module module) {
+        if (module.getCourse() != null) {
+            Course course = courseRepository.findByIdAndDeletingDateIsNull(module.getCourse().getId()).orElseThrow();
+            course.markAsUpdated();
+            module.setCourse(course);
+        }
+        if (module.getLessons() != null) {
+            List<Lesson> lessons = module.getLessons().stream()
+                    .map(l -> {
+                        Lesson lesson = lessonRepository.findByIdAndDeletingDateIsNull(l.getId()).orElseThrow();
+                        lesson.markAsUpdated();
+                        lesson.setModule(module);
+                        return lesson;
+                    })
+                    .toList();
+            module.setLessons(lessons);
+        }
+        moduleRepository.save(module);
     }
 
     @Override

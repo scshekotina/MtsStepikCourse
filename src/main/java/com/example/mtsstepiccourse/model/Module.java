@@ -4,13 +4,11 @@ import com.example.mtsstepiccourse.dto.ModuleToEditDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -25,6 +23,10 @@ public class Module extends UpdatableAndDeletableEntityWithCreatingData {
 
     @OneToMany(mappedBy = "module", fetch = FetchType.EAGER)
     private List<Lesson> lessons;
+
+    public Module() {
+        super();
+    }
 
     public Module(Long id) {
         super(id);

@@ -25,6 +25,7 @@ public class LessonServiceImpl implements LessonService {
     public void create(Lesson lesson) {
         if (lesson.getModule() != null) {
             Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
+            module.markAsUpdated();
             lesson.setModule(module);
         }
         lesson.markAsCreatedAndUpdated();
@@ -37,6 +38,7 @@ public class LessonServiceImpl implements LessonService {
         Lesson fromRepo = lessonRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         if (lesson.getModule() != null) {
             Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
+            module.markAsUpdated();
             lesson.setModule(module);
         }
         lesson.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
