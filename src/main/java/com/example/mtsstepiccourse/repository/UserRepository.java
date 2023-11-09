@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.id=:id")
     Optional<User> findByIdWithCourses(@Param("id") Long id);
 
-    List<User> findAllByDeletingDateIsNull();
+    List<User> findAllByDeletingDateIsNullOrderByUsername();
 
 }

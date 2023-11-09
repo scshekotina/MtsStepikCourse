@@ -17,14 +17,14 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Lesson findById(Long id) {
-        return lessonRepository.findById(id).orElseThrow();
+        return lessonRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
     }
 
     @Transactional
     @Override
     public void create(Lesson lesson) {
         if (lesson.getModule() != null) {
-            Module module = moduleRepository.findById(lesson.getModule().getId()).orElseThrow();
+            Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
             lesson.setModule(module);
         }
         lesson.markAsCreatedAndUpdated();
@@ -34,9 +34,9 @@ public class LessonServiceImpl implements LessonService {
     @Transactional
     @Override
     public void update(Long id, Lesson lesson) {
-        Lesson fromRepo = lessonRepository.findById(id).orElseThrow();
+        Lesson fromRepo = lessonRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         if (lesson.getModule() != null) {
-            Module module = moduleRepository.findById(lesson.getModule().getId()).orElseThrow();
+            Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
             lesson.setModule(module);
         }
         lesson.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
@@ -47,7 +47,7 @@ public class LessonServiceImpl implements LessonService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Lesson lesson = lessonRepository.findById(id).orElseThrow();
+        Lesson lesson = lessonRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         lesson.markAsDeleted();
         lessonRepository.save(lesson);
     }

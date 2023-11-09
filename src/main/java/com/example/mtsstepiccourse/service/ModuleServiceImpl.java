@@ -21,20 +21,20 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Module findById(Long id) {
-        return moduleRepository.findById(id).orElseThrow();
+        return moduleRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
     }
 
     @Transactional
     @Override
     public void create(Module module) {
         if (module.getCourse() != null) {
-            Course course = courseRepository.findById(module.getCourse().getId()).orElseThrow();
+            Course course = courseRepository.findByIdAndDeletingDateIsNull(module.getCourse().getId()).orElseThrow();
             module.setCourse(course);
         }
         if (module.getLessons() != null) {
             List<Lesson> lessons = module.getLessons().stream()
                     .map(l -> {
-                        Lesson lesson = lessonRepository.findById(l.getId()).orElseThrow();
+                        Lesson lesson = lessonRepository.findByIdAndDeletingDateIsNull(l.getId()).orElseThrow();
                         lesson.setModule(module);
                         return lesson;
                     })
@@ -48,7 +48,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Transactional
     @Override
     public void update(Long id, Module module) {
-        Module fromRepo = moduleRepository.findById(id).orElseThrow();
+        Module fromRepo = moduleRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         module.setId(id);
         module.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
         module.markAsUpdated();
@@ -58,7 +58,7 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Module module = moduleRepository.findById(id).orElseThrow();
+        Module module = moduleRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         module.markAsDeleted();
         moduleRepository.save(module);
     }

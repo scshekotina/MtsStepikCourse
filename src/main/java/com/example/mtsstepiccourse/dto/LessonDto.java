@@ -15,6 +15,4 @@ public class LessonDto {
     private String title;
     private String text;
     private ModuleSimpleDto module;
-    private CourseSimpleDto course;
-
 }

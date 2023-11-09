@@ -19,7 +19,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> simpleFindAll() {
-        return courseRepository.findAll();
+        return courseRepository.findAllByDeletingDateIsNullOrderByTitle();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
         if (course.getModules() != null) {
             List<Module> modules = course.getModules().stream()
                     .map(m -> {
-                        Module fromRepo = moduleRepository.findById(m.getId()).orElseThrow();
+                        Module fromRepo = moduleRepository.findByIdAndDeletingDateIsNull(m.getId()).orElseThrow();
                         fromRepo.setCourse(course);
                         return fromRepo;
                     }).toList();
@@ -46,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void update(Long id, Course course){
-        Course fromRepo = courseRepository.findById(id).orElseThrow();
+        Course fromRepo = courseRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         course.setId(id);
         course.markAsCreated(fromRepo.getCreatingAuthor(),fromRepo.getCreatingDate());
         course.markAsUpdated();
@@ -56,7 +56,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Course course = courseRepository.findById(id).orElseThrow();
+        Course course = courseRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         course.markAsDeleted();
         courseRepository.save(course);
     }
