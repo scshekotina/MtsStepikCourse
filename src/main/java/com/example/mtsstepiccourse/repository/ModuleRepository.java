@@ -1,15 +1,9 @@
 package com.example.mtsstepiccourse.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.mtsstepiccourse.model.Module;
-import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+@Repository
+public interface ModuleRepository extends UpdatableEntityRepository<Module> {
 
-
-public interface ModuleRepository extends JpaRepository<Module, Long> {
-
-    @Transactional
-    Optional<Module> findByIdAndDeletingDateIsNull(@Param("id")Long id);
 }

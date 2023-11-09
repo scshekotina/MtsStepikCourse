@@ -23,27 +23,17 @@ public class LessonServiceImpl implements LessonService {
     @Transactional
     @Override
     public void create(Lesson lesson) {
-        if (lesson.getModule() != null) {
-            Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
-            module.markAsUpdated();
-            lesson.setModule(module);
-        }
+        save(lesson);
         lesson.markAsCreatedAndUpdated();
-        lessonRepository.save(lesson);
     }
 
     @Transactional
     @Override
     public void update(Long id, Lesson lesson) {
         Lesson fromRepo = lessonRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
-        if (lesson.getModule() != null) {
-            Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
-            module.markAsUpdated();
-            lesson.setModule(module);
-        }
+        save(lesson);
         lesson.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
         lesson.markAsUpdated();
-        lessonRepository.save(lesson);
     }
 
     @Override
@@ -51,6 +41,15 @@ public class LessonServiceImpl implements LessonService {
     public void delete(Long id) {
         Lesson lesson = lessonRepository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         lesson.markAsDeleted();
+        lessonRepository.save(lesson);
+    }
+
+    private void save(Lesson lesson){
+        if (lesson.getModule() != null) {
+            Module module = moduleRepository.findByIdAndDeletingDateIsNull(lesson.getModule().getId()).orElseThrow();
+            module.markAsUpdated();
+            lesson.setModule(module);
+        }
         lessonRepository.save(lesson);
     }
 }

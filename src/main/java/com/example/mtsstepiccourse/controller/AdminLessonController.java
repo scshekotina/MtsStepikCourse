@@ -7,6 +7,7 @@ import com.example.mtsstepiccourse.model.Lesson;
 import com.example.mtsstepiccourse.service.LessonService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class AdminLessonController {
     }
 
     @GetMapping("/{id}")
+    @Transactional
     public LessonDto getLesson(@PathVariable Long id) {
         return lessonDtoMapper.lessonToLessonDto(lessonService.findById(id));
     }
