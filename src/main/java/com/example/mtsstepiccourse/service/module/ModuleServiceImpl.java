@@ -24,7 +24,7 @@ public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implem
     }
 
     @Override
-    public void updateLinkedEntities(Module entity) {
+    public void updateLinkedEntities(Module entity, Module entityFromRepo) {
         if (entity.getCourse() != null) {
             Course course = courseRepository.findByIdAndDeletingDateIsNull(entity.getCourse().getId()).orElseThrow();
             course.markAsUpdated();

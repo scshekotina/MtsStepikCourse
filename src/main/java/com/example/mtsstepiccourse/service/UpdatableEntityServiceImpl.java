@@ -18,30 +18,35 @@ public abstract class UpdatableEntityServiceImpl<T extends UpdatableAndDeletable
 
     @Transactional
     public void create(T entity) {
-        save(entity);
         entity.markAsCreatedAndUpdated();
+        save(entity);
     }
 
     @Transactional
     public void update(Long id, T entity) {
         T fromRepo = repository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         entity.setId(id);
-        save(entity);
         entity.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
         entity.markAsUpdated();
+        save(entity, fromRepo);
     }
 
+
     public void save(T entity) {
-        updateLinkedEntities(entity);
+        save(entity, null);
+    }
+
+    public void save(T entity, T entityFromRepo) {
+        updateLinkedEntities(entity, entityFromRepo);
         repository.save(entity);
     }
 
-    public abstract void updateLinkedEntities(T entity);
+    public abstract void updateLinkedEntities(T entity, T entityFromRepo);
 
     @Transactional
     public void delete(Long id) {
         T entity = repository.findByIdAndDeletingDateIsNull(id).orElseThrow();
-        repository.save(entity);
         entity.markAsDeleted();
+        repository.save(entity);
     }
 }
