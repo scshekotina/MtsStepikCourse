@@ -36,12 +36,18 @@ public abstract class UpdatableEntityServiceImpl<T extends UpdatableAndDeletable
         save(entity, null);
     }
 
+    @Transactional
     public void save(T entity, T entityFromRepo) {
-        updateLinkedEntities(entity, entityFromRepo);
+        deleteLinkedEntities(entity, entityFromRepo);
         repository.save(entity);
+        saveLinkedEntities(entity);
     }
 
-    protected abstract void updateLinkedEntities(T entity, T entityFromRepo);
+    @Transactional
+    protected abstract void deleteLinkedEntities(T entity,T entityFromRepo);
+
+    @Transactional
+    protected abstract void saveLinkedEntities(T entity);
 
     @Transactional
     public void delete(Long id) {

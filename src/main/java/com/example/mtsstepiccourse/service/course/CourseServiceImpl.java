@@ -7,7 +7,6 @@ import com.example.mtsstepiccourse.repository.CourseRepository;
 import com.example.mtsstepiccourse.repository.ModuleRepository;
 import com.example.mtsstepiccourse.service.UpdatableEntityServiceImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -37,8 +36,7 @@ public class CourseServiceImpl extends UpdatableEntityServiceImpl<Course> implem
     }
 
     @Override
-    @Transactional
-    protected void updateLinkedEntities(Course entity, Course entityFromRepo) {
+    protected void deleteLinkedEntities(Course entity, Course entityFromRepo) {
         if (entityFromRepo != null && entityFromRepo.getModules() != null) {
             Set<Long> modulesFromRepoIds = entityFromRepo.getModules().stream().map(UpdatableAndDeletableEntity::getId)
                     .collect(Collectors.toSet());
@@ -61,7 +59,10 @@ public class CourseServiceImpl extends UpdatableEntityServiceImpl<Course> implem
 
             });
         }
+    }
 
+    @Override
+    protected void saveLinkedEntities(Course entity) {
         if(entity.getModules() != null) {
             List<Module> modules = entity.getModules().stream()
                     .map(m -> {

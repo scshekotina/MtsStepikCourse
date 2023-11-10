@@ -14,6 +14,12 @@ public class LessonServiceImpl extends UpdatableEntityServiceImpl<Lesson> implem
     }
 
     @Override
-    public void updateLinkedEntities(Lesson entity, Lesson entityFromRepo) {
+    protected void deleteLinkedEntities(Lesson entity, Lesson entityFromRepo) {
+
+    }
+
+    @Override
+    protected void saveLinkedEntities(Lesson entity) {
+
     }
 }

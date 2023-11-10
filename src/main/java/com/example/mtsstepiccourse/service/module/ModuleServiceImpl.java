@@ -23,7 +23,7 @@ public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implem
     }
 
     @Override
-    protected void updateLinkedEntities(Module entity, Module entityFromRepo) {
+    protected void deleteLinkedEntities(Module entity, Module entityFromRepo) {
         if (entityFromRepo != null && entityFromRepo.getLessons() != null) {
             Set<Long> lessonsFromRepo = entityFromRepo.getLessons().stream().map(UpdatableAndDeletableEntity::getId)
                     .collect(Collectors.toSet());
@@ -46,7 +46,10 @@ public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implem
 
             });
         }
+    }
 
+    @Override
+    protected void saveLinkedEntities(Module entity) {
         if(entity.getLessons() != null) {
             List<Lesson> lessons = entity.getLessons().stream()
                     .map(l -> {
