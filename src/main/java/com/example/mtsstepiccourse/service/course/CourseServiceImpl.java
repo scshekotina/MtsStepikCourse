@@ -31,8 +31,14 @@ public class CourseServiceImpl extends UpdatableEntityServiceImpl<Course> implem
     }
 
     @Override
+    public Course findById(Long id) {
+        CourseRepository repository1 = (CourseRepository) repository;
+        return repository1.findByIdWithLessons(id).orElseThrow();
+    }
+
+    @Override
     @Transactional
-    public void updateLinkedEntities(Course entity, Course entityFromRepo) {
+    protected void updateLinkedEntities(Course entity, Course entityFromRepo) {
         if (entityFromRepo != null && entityFromRepo.getModules() != null) {
             Set<Long> modulesFromRepoIds = entityFromRepo.getModules().stream().map(UpdatableAndDeletableEntity::getId)
                     .collect(Collectors.toSet());
