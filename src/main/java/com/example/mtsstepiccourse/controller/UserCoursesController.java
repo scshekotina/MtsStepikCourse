@@ -3,7 +3,7 @@ package com.example.mtsstepiccourse.controller;
 import com.example.mtsstepiccourse.dto.CourseDto;
 import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
-import com.example.mtsstepiccourse.service.UserCoursesService;
+import com.example.mtsstepiccourse.service.user.UserCoursesService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

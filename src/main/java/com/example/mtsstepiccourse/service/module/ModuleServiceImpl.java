@@ -1,4 +1,4 @@
-package com.example.mtsstepiccourse.service;
+package com.example.mtsstepiccourse.service.module;
 
 import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.model.Lesson;
@@ -6,12 +6,13 @@ import com.example.mtsstepiccourse.model.Module;
 import com.example.mtsstepiccourse.repository.CourseRepository;
 import com.example.mtsstepiccourse.repository.LessonRepository;
 import com.example.mtsstepiccourse.repository.UpdatableEntityRepository;
+import com.example.mtsstepiccourse.service.UpdatableEntityServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ModuleServiceImpl extends UpdatableEntityService<Module> implements ModuleService {
+public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implements ModuleService {
     private final CourseRepository courseRepository;
     private final LessonRepository lessonRepository;
 

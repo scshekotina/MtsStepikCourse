@@ -4,9 +4,9 @@ import com.example.mtsstepiccourse.dto.*;
 import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
 import com.example.mtsstepiccourse.mapper.LessonDtoMapper;
 import com.example.mtsstepiccourse.mapper.ModuleDtoMapper;
-import com.example.mtsstepiccourse.service.CourseService;
-import com.example.mtsstepiccourse.service.LessonService;
-import com.example.mtsstepiccourse.service.ModuleService;
+import com.example.mtsstepiccourse.service.course.CourseService;
+import com.example.mtsstepiccourse.service.lesson.LessonService;
+import com.example.mtsstepiccourse.service.module.ModuleService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

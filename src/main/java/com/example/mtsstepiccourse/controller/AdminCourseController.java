@@ -4,7 +4,7 @@ import com.example.mtsstepiccourse.dto.CourseOnlyModulesDto;
 import com.example.mtsstepiccourse.dto.CourseToEditDto;
 import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
-import com.example.mtsstepiccourse.service.CourseService;
+import com.example.mtsstepiccourse.service.course.CourseService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class AdminCourseController {
 
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable Long id) {
-        courseService.deleteById(id);
+        courseService.delete(id);
     }
 
 }

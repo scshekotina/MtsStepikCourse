@@ -1,4 +1,4 @@
-package com.example.mtsstepiccourse.service;
+package com.example.mtsstepiccourse.service.user;
 
 import com.example.mtsstepiccourse.model.User;
 import com.example.mtsstepiccourse.repository.UserRepository;

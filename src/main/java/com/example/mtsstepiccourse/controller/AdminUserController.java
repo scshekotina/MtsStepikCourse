@@ -4,7 +4,7 @@ import com.example.mtsstepiccourse.dto.UserDto;
 import com.example.mtsstepiccourse.dto.UserToEditDto;
 import com.example.mtsstepiccourse.mapper.UserDtoMapper;
 import com.example.mtsstepiccourse.model.User;
-import com.example.mtsstepiccourse.service.UserService;
+import com.example.mtsstepiccourse.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

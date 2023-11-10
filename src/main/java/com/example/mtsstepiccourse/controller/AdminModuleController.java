@@ -4,7 +4,7 @@ import com.example.mtsstepiccourse.dto.ModuleDto;
 import com.example.mtsstepiccourse.dto.ModuleToEditDto;
 import com.example.mtsstepiccourse.mapper.ModuleDtoMapper;
 import com.example.mtsstepiccourse.model.Module;
-import com.example.mtsstepiccourse.service.ModuleService;
+import com.example.mtsstepiccourse.service.module.ModuleService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
