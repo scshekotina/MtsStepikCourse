@@ -13,7 +13,7 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: role_id_pk
               - column:
-                  name: role
+                  name: name
                   type: varchar(255)
                   constraints:
                     nullable: false
@@ -448,3 +448,19 @@ databaseChangeLog:
                   name: email
                   value: admin@email.com
             tableName: users
+  - changeSet:
+      id: '2023111201'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_ADMIN
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_STUDENT

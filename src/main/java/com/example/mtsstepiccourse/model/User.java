@@ -1,6 +1,7 @@
 package com.example.mtsstepiccourse.model;
 
 import com.example.mtsstepiccourse.dto.UserToEditDto;
+import com.example.mtsstepiccourse.security.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -40,6 +41,9 @@ public class User extends UpdatableAndDeletableEntity{
 
     @ManyToMany(mappedBy = "users")
     private Set<Course> courses;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Role> roles;
 
     private LocalDateTime registrationDate;
 
