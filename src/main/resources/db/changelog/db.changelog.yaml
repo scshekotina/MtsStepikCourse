@@ -464,3 +464,52 @@ databaseChangeLog:
               - column:
                   name: name
                   value: ROLE_STUDENT
+  - changeSet:
+      id: '20231101401'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: username
+                  value: student
+              - column:
+                  name: password
+                  value: $2a$04$eEwk2o.r5ZaV3kT47sKVjeYXHw3julgMAYbEi4kU4NPlP047USMae
+              - column:
+                  name: firstname
+                  value: Студент
+              - column:
+                  name: lastname
+                  value: Петров
+              - column:
+                  name: email
+                  value: petrov@email.com
+            tableName: users
+        - update:
+            tableName: users
+            where: id='1'
+            column:
+              name: password
+              value: $2a$04$BTXolQ/Y/Oko1.mR0jac8.znsbcWxqK2rOGiNeBXSqE3HDrtJGzL.
+        - insert:
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 1
+            tableName: user_role
+        - insert:
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: role_id
+                  value: 2
+            tableName: user_role
