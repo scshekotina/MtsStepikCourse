@@ -1,6 +1,5 @@
 package com.example.mtsstepiccourse.security;
 
-import com.example.mtsstepiccourse.model.User;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,7 +27,7 @@ public class Role {
     @JoinTable(name="user_role",
             joinColumns=@JoinColumn(name="role_id", referencedColumnName="id"),
             inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id"))
-    private Set<User> users;
+    private Set<UserPrincipal> userPrincipal;
 
     public Role(String name) {
         this.name = name;
