@@ -1,6 +1,6 @@
 package com.example.mtsstepiccourse.model;
 
-import com.example.mtsstepiccourse.util.title.UserUtil;
+import com.example.mtsstepiccourse.security.UserPrincipal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,26 +16,14 @@ public abstract class UpdatableAndDeletableEntityWithCreatingData extends Updata
 
     private LocalDateTime creatingDate;
     @ManyToOne(fetch = FetchType.LAZY)
-    private User creatingAuthor;
+    private UserPrincipal creatingAuthor;
 
     public UpdatableAndDeletableEntityWithCreatingData() {
         super();
-        markAsCreatedAndUpdated();
     }
 
     public UpdatableAndDeletableEntityWithCreatingData(Long id) {
         super(id);
-        markAsCreatedAndUpdated();
-    }
-
-    public void markAsCreated(User user, LocalDateTime dateTime) {
-        setCreatingAuthor(user);
-        setCreatingDate(dateTime);
-    }
-
-    public void markAsCreatedAndUpdated() {
-        markAsCreated(UserUtil.getCurrentUser(), LocalDateTime.now());
-        super.markAsUpdated();
     }
 
 }

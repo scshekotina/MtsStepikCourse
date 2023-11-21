@@ -1,6 +1,6 @@
 package com.example.mtsstepiccourse.controller;
 
-import com.example.mtsstepiccourse.dto.CourseDto;
+import com.example.mtsstepiccourse.dto.CourseSimpleDto;
 import com.example.mtsstepiccourse.mapper.CourseDtoMapper;
 import com.example.mtsstepiccourse.model.Course;
 import com.example.mtsstepiccourse.service.user.UserCoursesService;
@@ -19,9 +19,9 @@ public class UserCoursesController {
     private CourseDtoMapper courseDtoMapper;
 
     @GetMapping("/{user_id}/courses")
-    public Set<CourseDto> getCourses(@PathVariable("user_id") Long userId) {
+    public Set<CourseSimpleDto> getCourses(@PathVariable("user_id") Long userId) {
         Set<Course> courses = userCoursesService.getCourses(userId);
-        return (courses.stream().map(courseDtoMapper::courseToCourseDto).collect(Collectors.toSet()));
+        return (courses.stream().map(courseDtoMapper::courseToCourseSimpleDto).collect(Collectors.toSet()));
     }
 
     @PostMapping("/{user_id}/courses")

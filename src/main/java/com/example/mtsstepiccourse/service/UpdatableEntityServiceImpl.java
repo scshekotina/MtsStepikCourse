@@ -2,15 +2,18 @@ package com.example.mtsstepiccourse.service;
 
 import com.example.mtsstepiccourse.model.*;
 import com.example.mtsstepiccourse.repository.UpdatableEntityRepository;
+import com.example.mtsstepiccourse.security.UserAuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @AllArgsConstructor
 public abstract class UpdatableEntityServiceImpl<T extends UpdatableAndDeletableEntityWithCreatingData> {
 
     protected UpdatableEntityRepository<T> repository;
+    protected final UserAuthService userAuthService;
 
     public T findById(Long id) {
         return repository.findByIdAndDeletingDateIsNull(id).orElseThrow();
@@ -18,7 +21,7 @@ public abstract class UpdatableEntityServiceImpl<T extends UpdatableAndDeletable
 
     @Transactional
     public void create(T entity) {
-        entity.markAsCreatedAndUpdated();
+        userAuthService.markAsCreated(entity);
         save(entity);
     }
 
@@ -26,8 +29,8 @@ public abstract class UpdatableEntityServiceImpl<T extends UpdatableAndDeletable
     public void update(Long id, T entity) {
         T fromRepo = repository.findByIdAndDeletingDateIsNull(id).orElseThrow();
         entity.setId(id);
-        entity.markAsCreated(fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
-        entity.markAsUpdated();
+        userAuthService.markAsCreated(entity, fromRepo.getCreatingAuthor(), fromRepo.getCreatingDate());
+        userAuthService.markAsUpdated(entity);
         save(entity, fromRepo);
     }
 
@@ -52,7 +55,8 @@ public abstract class UpdatableEntityServiceImpl<T extends UpdatableAndDeletable
     @Transactional
     public void delete(Long id) {
         T entity = repository.findByIdAndDeletingDateIsNull(id).orElseThrow();
-        entity.markAsDeleted();
+        userAuthService.markAsDeleted(entity);
         repository.save(entity);
     }
+
 }

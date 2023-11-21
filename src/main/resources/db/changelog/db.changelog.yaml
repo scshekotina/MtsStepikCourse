@@ -513,3 +513,11 @@ databaseChangeLog:
                   name: role_id
                   value: 2
             tableName: user_role
+  - changeSet:
+      id: '2023112101'
+      author: 'Anastasiya Scshekotina'
+      changes:
+        - addDefaultValue:
+            columnName: score
+            defaultValue: 0
+            tableName: rating

@@ -2,6 +2,7 @@ package com.example.mtsstepiccourse.service.user;
 
 import com.example.mtsstepiccourse.model.User;
 import com.example.mtsstepiccourse.repository.UserRepository;
+import com.example.mtsstepiccourse.security.UserAuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    protected final UserAuthService userAuthService;
 
     @Override
     public List<User> findAll() {
@@ -27,7 +29,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(User user) {
-        user.markAsUpdated();
         user.setRegistrationDate(LocalDateTime.now());
         userRepository.save(user);
     }
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         User fromRepository = userRepository.findById(id).orElseThrow();
         user.setId(id);
         user.setCourses(fromRepository.getCourses());
-        user.markAsUpdated();
+        userAuthService.markAsUpdated(user);
         user.setRegistrationDate(fromRepository.getRegistrationDate());
         userRepository.save(user);
     }
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        user.markAsDeleted();
+        userAuthService.markAsDeleted(user);
         userRepository.save(user);
     }
 }

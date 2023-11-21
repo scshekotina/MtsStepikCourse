@@ -5,6 +5,7 @@ import com.example.mtsstepiccourse.model.Module;
 import com.example.mtsstepiccourse.model.UpdatableAndDeletableEntity;
 import com.example.mtsstepiccourse.repository.LessonRepository;
 import com.example.mtsstepiccourse.repository.UpdatableEntityRepository;
+import com.example.mtsstepiccourse.security.UserAuthService;
 import com.example.mtsstepiccourse.service.UpdatableEntityServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implem
     private final LessonRepository lessonRepository;
 
     public ModuleServiceImpl(UpdatableEntityRepository<Module> repository,
-                             LessonRepository lessonRepository) {
-        super(repository);
+                             LessonRepository lessonRepository, UserAuthService userAuthService) {
+        super(repository, userAuthService);
         this.lessonRepository = lessonRepository;
     }
 
@@ -41,7 +42,7 @@ public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implem
             forDelete.forEach(id -> {
                 Lesson lesson = lessonRepository.findById(id).orElseThrow();
                 lesson.setModule(null);
-                lesson.markAsUpdated();
+                userAuthService.markAsUpdated(lesson);
                 lessonRepository.save(lesson);
 
             });
@@ -55,7 +56,7 @@ public class ModuleServiceImpl extends UpdatableEntityServiceImpl<Module> implem
                     .map(l -> {
                         Lesson lesson = lessonRepository.findByIdAndDeletingDateIsNull(l.getId()).orElseThrow();
                         lesson.setModule(entity);
-                        lesson.markAsUpdated();
+                        userAuthService.markAsUpdated(lesson);
                         return lesson;
                     }).toList();
 
